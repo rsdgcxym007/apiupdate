@@ -16,6 +16,7 @@ const {
   Op
 } = require("sequelize");
 const db = require('./src/db/models')
+const res = require('express/lib/response')
 
 const storage = multer.memoryStorage();
 
@@ -410,6 +411,43 @@ app.post('/api/manage/taskall', async (req, res) => {
     //   text: 'ช่วยเหลือ',
     //   value: 'help'
     // },
+  ];
+  return res.json({
+    result: results,
+    headers
+  })
+});
+
+app.post('/api/taskall', async (req, res) => {
+  const {
+    userId
+  } = req.body
+  // const results = await prisma.$queryRawUnsafe(`select * from vw_tasks a where a."user_id" = $1`, userId)
+  const [results, metadata] = await db.sequelize.query(`select * from vw_tasks a where a."user_id" = '${userId}'`);
+  const headers = [{
+      text: 'สถานะ',
+      value: 'status_name'
+    },
+    {
+      text: 'ระดับอาการ',
+      value: ''
+    },
+    {
+      text: 'ชื่อผู้ป่วย',
+      value: 'name'
+    },
+    {
+      text: 'เบอร์โทร',
+      value: 'tel'
+    },
+    {
+      text: 'ที่อยู่',
+      value: 'address'
+    },
+    {
+      text: 'คำอธิบาย',
+      value: 'remark'
+    }
   ];
   return res.json({
     result: results,
