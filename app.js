@@ -373,12 +373,12 @@ app.post('/api/manage/update', async (req, res) => {
   })
 })
 
-app.post('/api/manage/taskall', async (req, res) => {
+app.post('/api/manage/taskallhelp', async (req, res) => {
   const {
     userId
   } = req.body
   // const results = await prisma.$queryRawUnsafe(`select * from vw_tasks a where a."user_id" = $1`, userId)
-  const [results, metadata] = await db.sequelize.query(`select * from vw_tasks a where a."user_id" = '${userId}'`);
+  const [results, metadata] = await db.sequelize.query(`select * from vw_tasks a where a.status_name = 'ขอความช่วยเหลือ' `);
   const headers = [{
       text: 'สถานะ',
       value: 'status_name'
@@ -406,7 +406,12 @@ app.post('/api/manage/taskall', async (req, res) => {
     {
       text: 'วันที่สร้าง',
       value: 'created_at'
-    }
+    },
+    {
+      text: 'Actions',
+      value: 'actions',
+      sortable: false
+    },
     // {
     //   text: 'ช่วยเหลือ',
     //   value: 'help'
@@ -418,7 +423,7 @@ app.post('/api/manage/taskall', async (req, res) => {
   })
 });
 
-app.post('/api/taskall', async (req, res) => {
+app.post('/api/manage/taskallbyuserid', async (req, res) => {
   const {
     userId
   } = req.body
@@ -447,7 +452,8 @@ app.post('/api/taskall', async (req, res) => {
     {
       text: 'คำอธิบาย',
       value: 'remark'
-    }
+    },
+
   ];
   return res.json({
     result: results,
@@ -496,6 +502,101 @@ app.get('/api/manage/report', async (req, res) => {
     // headers
   })
 });
+
+app.post('/api/manage/updatestatus', async (req, res) => {
+  try {
+    const {
+      id
+    } = req.body
+
+    await db.tasks.update({
+      status_id: "490089af-cb09-476d-9568-a0896a50143a"
+    }, {
+      where: {
+        id
+      }
+    })
+    return res.json({
+      result: true,
+      message: "ดำเนินการสำเร็จ"
+    })
+  } catch (err) {
+    return res.json({
+      result: false,
+      message: "ดำเนินการไม่สำเร็จ"
+    })
+  }
+
+
+
+});
+
+app.post('/api/volunteen/updatetakecareuser', async (req, res) => {
+  try {
+    const {
+      id
+    } = req.body
+
+    await db.tasks.update({
+      status_id: ""
+    }, {
+      where: {
+        id
+      }
+    })
+    return res.json({
+      result: true,
+      message: "ดำเนินการสำเร็จ"
+    })
+  } catch (err) {
+    return res.json({
+      result: false,
+      message: "ดำเนินการไม่สำเร็จ"
+    })
+  }
+
+
+
+});
+
+app.post('/api/manage/takecareuser', async (req, res) => {
+  const {
+    userId
+  } = req.body
+  // const results = await prisma.$queryRawUnsafe(`select * from vw_tasks a where a."user_id" = $1`, userId)
+  const [results, metadata] = await db.sequelize.query(`select * from vw_tasks a where a."user_id" = '${userId}'`);
+  const headers = [{
+      text: 'สถานะ',
+      value: 'status_name'
+    },
+    {
+      text: 'ระดับอาการ',
+      value: ''
+    },
+    {
+      text: 'ชื่อผู้ป่วย',
+      value: 'name'
+    },
+    {
+      text: 'เบอร์โทร',
+      value: 'tel'
+    },
+    {
+      text: 'ที่อยู่',
+      value: 'address'
+    },
+    {
+      text: 'คำอธิบาย',
+      value: 'remark'
+    },
+
+  ];
+  return res.json({
+    result: results,
+    headers
+  })
+});
+
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
