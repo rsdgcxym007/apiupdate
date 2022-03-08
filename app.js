@@ -373,7 +373,7 @@ app.post('/api/manage/update', async (req, res) => {
   })
 })
 
-app.post('/api/manage/taskallhelp', async (req, res) => {
+app.post('/api/volunteen/taskallhelp', async (req, res) => {
   const {
     userId
   } = req.body
@@ -503,7 +503,7 @@ app.get('/api/manage/report', async (req, res) => {
   })
 });
 
-app.post('/api/manage/updatestatus', async (req, res) => {
+app.post('/api/volunteen/updatestatus', async (req, res) => {
   try {
     const {
       id
@@ -559,7 +559,7 @@ app.post('/api/volunteen/updatetakecareuser', async (req, res) => {
 
 });
 
-app.post('/api/manage/takecareuser', async (req, res) => {
+app.post('/api/volunteen/takecareuser', async (req, res) => {
   const {
     userId
   } = req.body
@@ -597,7 +597,52 @@ app.post('/api/manage/takecareuser', async (req, res) => {
   })
 });
 
+app.post('/api/volunteen/getbyuser', async (req, res) => {
 
+  const {
+    user_id
+  } = req.body;
+
+  const result = await db.tasks.findAll({
+    where: {
+      user_id
+    }
+  });
+
+  const items = result.map(function (item) {
+    return item['remark'];
+  });
+
+  return res.json({
+    result: items,
+    // headers
+  })
+});
+
+app.post('/api/volunteen/updatereport', async (req, res) => {
+  try {
+    const {
+      id
+    } = req.body
+
+    await db.status.update({
+      status_id: "ef9e2e70-d55b-4250-8967-965b7cb0cbc7"
+    }, {
+      where: {
+        id
+      }
+    })
+    return res.json({
+      result: true,
+      message: "ดำเนินการสำเร็จ"
+    })
+  } catch (err) {
+    return res.json({
+      result: false,
+      message: "ดำเนินการไม่สำเร็จ"
+    })
+  }
+});
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
