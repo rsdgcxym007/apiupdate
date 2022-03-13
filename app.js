@@ -354,7 +354,7 @@ app.post('/api/manage/update', async (req, res) => {
 
   }, {
     where: {
-      user_id: data.user_id
+      id: data.id
     }
   })
 
@@ -433,10 +433,10 @@ app.post('/api/manage/taskallbyuserid', async (req, res) => {
       text: 'สถานะ',
       value: 'status_name'
     },
-    {
-      text: 'ระดับอาการ',
-      value: ''
-    },
+    // {
+    //   text: 'ระดับอาการ',
+    //   value: ''
+    // },
     {
       text: 'ชื่อผู้ป่วย',
       value: 'name'
@@ -458,6 +458,23 @@ app.post('/api/manage/taskallbyuserid', async (req, res) => {
   return res.json({
     result: results,
     headers
+  })
+});
+
+app.post('/api/tasks/getbyId', async (req, res) => {
+
+  const {
+    id
+  } = req.body;
+
+  const result = await db.tasks.findOne({
+    where: {
+      id
+    }
+  });
+
+  return res.json({
+    result: result
   })
 });
 
