@@ -7,7 +7,6 @@ var _tasks2 = require("./tasks2");
 var _types = require("./types");
 var _types2 = require("./types2");
 var _uploadimages = require("./uploadimages");
-var _uploadimages2 = require("./uploadimages2");
 var _users = require("./users");
 
 function initModels(sequelize) {
@@ -19,7 +18,6 @@ function initModels(sequelize) {
   var types = _types(sequelize, DataTypes);
   var types2 = _types2(sequelize, DataTypes);
   var uploadimages = _uploadimages(sequelize, DataTypes);
-  var uploadimages2 = _uploadimages2(sequelize, DataTypes);
   var users = _users(sequelize, DataTypes);
 
 
@@ -32,7 +30,6 @@ function initModels(sequelize) {
     types,
     types2,
     uploadimages,
-    uploadimages2,
     users,
   };
 }
