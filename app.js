@@ -358,8 +358,6 @@ app.post('/api/manage/update', async (req, res) => {
     }
   })
 
-
-
   if (!task) {
     return res.json({
       result: false,
@@ -371,7 +369,7 @@ app.post('/api/manage/update', async (req, res) => {
     result: true,
     message: "update success"
   })
-})
+});
 
 app.post('/api/volunteen/taskallhelp', async (req, res) => {
   const {
@@ -380,38 +378,38 @@ app.post('/api/volunteen/taskallhelp', async (req, res) => {
   // const results = await prisma.$queryRawUnsafe(`select * from vw_tasks a where a."user_id" = $1`, userId)
   const [results, metadata] = await db.sequelize.query(`select * from vw_tasks a where a.status_name = 'ขอความช่วยเหลือ' `);
   const headers = [{
-      text: 'สถานะ',
-      value: 'status_name'
-    }, {
-      text: 'ประเภท',
-      value: 'type'
-    },
-    {
-      text: 'ชื่อผู้ป่วย',
-      value: 'name'
-    },
-    {
-      text: 'เบอร์โทร',
-      value: 'tel'
-    },
-    {
-      text: 'ที่อยู่',
-      value: 'address'
-    },
-    {
-      text: 'คำอธิบาย',
-      value: 'remark'
-    },
+    text: 'สถานะ',
+    value: 'status_name'
+  }, {
+    text: 'ประเภท',
+    value: 'type'
+  },
+  {
+    text: 'ชื่อผู้ป่วย',
+    value: 'name'
+  },
+  {
+    text: 'เบอร์โทร',
+    value: 'tel'
+  },
+  {
+    text: 'ที่อยู่',
+    value: 'address'
+  },
+  {
+    text: 'คำอธิบาย',
+    value: 'remark'
+  },
 
-    {
-      text: 'วันที่สร้าง',
-      value: 'created_at'
-    },
-    {
-      text: 'Actions',
-      value: 'actions',
-      sortable: false
-    },
+  {
+    text: 'วันที่สร้าง',
+    value: 'created_at'
+  },
+  {
+    text: 'Actions',
+    value: 'actions',
+    sortable: false
+  },
     // {
     //   text: 'ช่วยเหลือ',
     //   value: 'help'
@@ -430,29 +428,29 @@ app.post('/api/manage/taskallbyuserid', async (req, res) => {
   // const results = await prisma.$queryRawUnsafe(`select * from vw_tasks a where a."user_id" = $1`, userId)
   const [results, metadata] = await db.sequelize.query(`select * from vw_tasks a where a."user_id" = '${userId}'`);
   const headers = [{
-      text: 'สถานะ',
-      value: 'status_name'
-    },
-    // {
-    //   text: 'ระดับอาการ',
-    //   value: ''
-    // },
-    {
-      text: 'ชื่อผู้ป่วย',
-      value: 'name'
-    },
-    {
-      text: 'เบอร์โทร',
-      value: 'tel'
-    },
-    {
-      text: 'ที่อยู่',
-      value: 'address'
-    },
-    {
-      text: 'คำอธิบาย',
-      value: 'remark'
-    },
+    text: 'สถานะ',
+    value: 'status_name'
+  },
+  // {
+  //   text: 'ระดับอาการ',
+  //   value: ''
+  // },
+  {
+    text: 'ชื่อผู้ป่วย',
+    value: 'name'
+  },
+  {
+    text: 'เบอร์โทร',
+    value: 'tel'
+  },
+  {
+    text: 'ที่อยู่',
+    value: 'address'
+  },
+  {
+    text: 'คำอธิบาย',
+    value: 'remark'
+  },
 
   ];
   return res.json({
@@ -583,29 +581,29 @@ app.post('/api/volunteen/takecareuser', async (req, res) => {
   // const results = await prisma.$queryRawUnsafe(`select * from vw_tasks a where a."user_id" = $1`, userId)
   const [results, metadata] = await db.sequelize.query(`select * from vw_tasks a where a."user_id" = '${userId}'`);
   const headers = [{
-      text: 'สถานะ',
-      value: 'status_name'
-    },
-    {
-      text: 'ระดับอาการ',
-      value: ''
-    },
-    {
-      text: 'ชื่อผู้ป่วย',
-      value: 'name'
-    },
-    {
-      text: 'เบอร์โทร',
-      value: 'tel'
-    },
-    {
-      text: 'ที่อยู่',
-      value: 'address'
-    },
-    {
-      text: 'คำอธิบาย',
-      value: 'remark'
-    },
+    text: 'สถานะ',
+    value: 'status_name'
+  },
+  {
+    text: 'ระดับอาการ',
+    value: ''
+  },
+  {
+    text: 'ชื่อผู้ป่วย',
+    value: 'name'
+  },
+  {
+    text: 'เบอร์โทร',
+    value: 'tel'
+  },
+  {
+    text: 'ที่อยู่',
+    value: 'address'
+  },
+  {
+    text: 'คำอธิบาย',
+    value: 'remark'
+  },
 
   ];
   return res.json({
@@ -660,6 +658,47 @@ app.post('/api/volunteen/updatereport', async (req, res) => {
     })
   }
 });
+
+//test create api by dreem
+app.post('/api/user/getbyID', async (req, res) => {
+  let data = req.body
+  const results = await db.users.findOne({
+    where: {id:data.id
+    }
+  });
+  return res.json({
+    result: results
+  })
+});
+
+app.post('/api/user/update', async (req, res) => {
+
+  let data = req.body
+  const task = await db.users.update({
+    first_name: data.first_name,
+    last_name: data.last_name,
+    tel: data.tel,
+    address: data.address
+
+  }, {
+    where: {
+      id: data.id
+    }
+  })
+
+  if (!task) {
+    return res.json({
+      result: false,
+      message: "request error"
+    })
+  }
+
+  return res.json({
+    result: true,
+    message: "update success"
+  })
+});
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
