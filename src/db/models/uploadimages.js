@@ -13,15 +13,15 @@ module.exports = function(sequelize, DataTypes) {
     },
     hospital: {
       type: DataTypes.STRING(255),
-      allowNull: true
+      allowNull: false
     },
     image_rtpcr: {
       type: DataTypes.TEXT,
-      allowNull: true
+      allowNull: false
     },
     image_medical: {
       type: DataTypes.TEXT,
-      allowNull: true
+      allowNull: false
     },
     user_id: {
       type: DataTypes.UUID,

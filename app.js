@@ -428,6 +428,7 @@ app.post('/api/manage/taskallbyuserid', async (req, res) => {
   // const results = await prisma.$queryRawUnsafe(`select * from vw_tasks a where a."user_id" = $1`, userId)
   const [results, metadata] = await db.sequelize.query(`select * from vw_tasks a where a."user_id" = '${userId}'`);
   const headers = [{
+<<<<<<< HEAD
     text: 'สถานะ',
     value: 'status_name'
   },
@@ -451,6 +452,35 @@ app.post('/api/manage/taskallbyuserid', async (req, res) => {
     text: 'คำอธิบาย',
     value: 'remark'
   },
+=======
+      text: 'สถานะ',
+      value: 'status_name'
+    },
+    // {
+    //   text: 'ระดับอาการ',
+    //   value: ''
+    // },
+    {
+      text: 'ชื่อผู้ป่วย',
+      value: 'name'
+    },
+    {
+      text: 'เบอร์โทร',
+      value: 'tel'
+    },
+    {
+      text: 'ที่อยู่',
+      value: 'address'
+    },
+    {
+      text: 'คำอธิบาย',
+      value: 'remark'
+    },
+    {
+      text: 'วันที่สร้าง',
+      value: 'created_at'
+    },
+>>>>>>> 97e91344fa8b8521d6cf8cc8412299e9aabbe61a
 
   ];
   return res.json({
@@ -521,11 +551,13 @@ app.get('/api/manage/report', async (req, res) => {
 app.post('/api/volunteen/updatestatus', async (req, res) => {
   try {
     const {
-      id
+      id,
+      user_id_va
     } = req.body
 
     await db.tasks.update({
-      status_id: "490089af-cb09-476d-9568-a0896a50143a"
+      status_id: "490089af-cb09-476d-9568-a0896a50143a",
+      user_id_va
     }, {
       where: {
         id
@@ -579,7 +611,9 @@ app.post('/api/volunteen/takecareuser', async (req, res) => {
     userId
   } = req.body
   // const results = await prisma.$queryRawUnsafe(`select * from vw_tasks a where a."user_id" = $1`, userId)
-  const [results, metadata] = await db.sequelize.query(`select * from vw_tasks a where a."user_id" = '${userId}'`);
+  const [results, metadata] = await db.sequelize.query(`
+  select * from vw_tasks a where a."user_id_va" = '${userId}' 
+  and a.status_name = 'กำลังช่วยเหลือ'`);
   const headers = [{
     text: 'สถานะ',
     value: 'status_name'

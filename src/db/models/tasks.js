@@ -26,6 +26,10 @@ module.exports = function(sequelize, DataTypes) {
     img_id: {
       type: DataTypes.UUID,
       allowNull: true
+    },
+    user_id_va: {
+      type: DataTypes.UUID,
+      allowNull: true
     }
   }, {
     sequelize,
