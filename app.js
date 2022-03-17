@@ -428,31 +428,6 @@ app.post('/api/manage/taskallbyuserid', async (req, res) => {
   // const results = await prisma.$queryRawUnsafe(`select * from vw_tasks a where a."user_id" = $1`, userId)
   const [results, metadata] = await db.sequelize.query(`select * from vw_tasks a where a."user_id" = '${userId}'`);
   const headers = [{
-<<<<<<< HEAD
-    text: 'สถานะ',
-    value: 'status_name'
-  },
-  // {
-  //   text: 'ระดับอาการ',
-  //   value: ''
-  // },
-  {
-    text: 'ชื่อผู้ป่วย',
-    value: 'name'
-  },
-  {
-    text: 'เบอร์โทร',
-    value: 'tel'
-  },
-  {
-    text: 'ที่อยู่',
-    value: 'address'
-  },
-  {
-    text: 'คำอธิบาย',
-    value: 'remark'
-  },
-=======
       text: 'สถานะ',
       value: 'status_name'
     },
@@ -480,7 +455,6 @@ app.post('/api/manage/taskallbyuserid', async (req, res) => {
       text: 'วันที่สร้าง',
       value: 'created_at'
     },
->>>>>>> 97e91344fa8b8521d6cf8cc8412299e9aabbe61a
 
   ];
   return res.json({
