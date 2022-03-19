@@ -682,7 +682,7 @@ app.post('/api/user/getbyID', async (req, res) => {
 app.post('/api/user/update', async (req, res) => {
 
   let data = req.body
-  const task = await db.users.update({
+  const user = await db.users.update({
     first_name: data.first_name,
     last_name: data.last_name,
     tel: data.tel,
@@ -694,7 +694,7 @@ app.post('/api/user/update', async (req, res) => {
     }
   })
 
-  if (!task) {
+  if (!user) {
     return res.json({
       result: false,
       message: "request error"
@@ -703,6 +703,7 @@ app.post('/api/user/update', async (req, res) => {
 
   return res.json({
     result: true,
+    data : user,
     message: "update success"
   })
 });
