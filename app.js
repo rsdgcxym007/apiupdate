@@ -67,6 +67,12 @@ app.post('/api/upload2', async (req, res) => {
     }
   })
 
+  if (!status) {
+    return res.json({
+      result: false,
+      message: "request error"
+    })
+  }
   return res.json({
     message: "success"
   })
@@ -358,6 +364,8 @@ app.post('/api/manage/update', async (req, res) => {
     }
   })
 
+
+
   if (!task) {
     return res.json({
       result: false,
@@ -369,7 +377,7 @@ app.post('/api/manage/update', async (req, res) => {
     result: true,
     message: "update success"
   })
-});
+})
 
 app.post('/api/volunteen/taskallhelp', async (req, res) => {
   const {
@@ -378,38 +386,38 @@ app.post('/api/volunteen/taskallhelp', async (req, res) => {
   // const results = await prisma.$queryRawUnsafe(`select * from vw_tasks a where a."user_id" = $1`, userId)
   const [results, metadata] = await db.sequelize.query(`select * from vw_tasks a where a.status_name = 'ขอความช่วยเหลือ' `);
   const headers = [{
-    text: 'สถานะ',
-    value: 'status_name'
-  }, {
-    text: 'ประเภท',
-    value: 'type'
-  },
-  {
-    text: 'ชื่อผู้ป่วย',
-    value: 'name'
-  },
-  {
-    text: 'เบอร์โทร',
-    value: 'tel'
-  },
-  {
-    text: 'ที่อยู่',
-    value: 'address'
-  },
-  {
-    text: 'คำอธิบาย',
-    value: 'remark'
-  },
+      text: 'สถานะ',
+      value: 'status_name'
+    }, {
+      text: 'ประเภท',
+      value: 'type'
+    },
+    {
+      text: 'ชื่อผู้ป่วย',
+      value: 'name'
+    },
+    {
+      text: 'เบอร์โทร',
+      value: 'tel'
+    },
+    {
+      text: 'ที่อยู่',
+      value: 'address'
+    },
+    {
+      text: 'คำอธิบาย',
+      value: 'remark'
+    },
 
-  {
-    text: 'วันที่สร้าง',
-    value: 'created_at'
-  },
-  {
-    text: 'Actions',
-    value: 'actions',
-    sortable: false
-  },
+    {
+      text: 'วันที่สร้าง',
+      value: 'created_at'
+    },
+    {
+      text: 'Actions',
+      value: 'actions',
+      sortable: false
+    },
     // {
     //   text: 'ช่วยเหลือ',
     //   value: 'help'
@@ -505,12 +513,13 @@ app.post('/api/tasks/getbyuser', async (req, res) => {
 app.get('/api/manage/report', async (req, res) => {
 
   const [results, metadata] = await db.sequelize.query(`select 
-  concat(b.first_name, ' ', b.last_name) fullname,
+  concat(b.first_name, ' ', b.last_name) fullname, 
   a.remark ,
   d."name" statusname,
   c.hospital,
   a.updated_at,
-  c.image_medical
+  c.image_medical,
+  a.id
   from tasks a
   inner join users b on a.user_id = b.id
   inner join uploadimages c on a.img_id = c.id
@@ -523,6 +532,7 @@ app.get('/api/manage/report', async (req, res) => {
 });
 
 app.post('/api/volunteen/updatestatus', async (req, res) => {
+
   try {
     const {
       id,
@@ -548,36 +558,6 @@ app.post('/api/volunteen/updatestatus', async (req, res) => {
     })
   }
 
-
-
-});
-
-app.post('/api/volunteen/updatetakecareuser', async (req, res) => {
-  try {
-    const {
-      id
-    } = req.body
-
-    await db.tasks.update({
-      status_id: ""
-    }, {
-      where: {
-        id
-      }
-    })
-    return res.json({
-      result: true,
-      message: "ดำเนินการสำเร็จ"
-    })
-  } catch (err) {
-    return res.json({
-      result: false,
-      message: "ดำเนินการไม่สำเร็จ"
-    })
-  }
-
-
-
 });
 
 app.post('/api/volunteen/takecareuser', async (req, res) => {
@@ -587,31 +567,31 @@ app.post('/api/volunteen/takecareuser', async (req, res) => {
   // const results = await prisma.$queryRawUnsafe(`select * from vw_tasks a where a."user_id" = $1`, userId)
   const [results, metadata] = await db.sequelize.query(`
   select * from vw_tasks a where a."user_id_va" = '${userId}' 
-  and a.status_name = 'กำลังช่วยเหลือ'`);
+  and a.status_name = 'ดำเนินการเสร็จสิ้น' or a.status_name = 'กำลังช่วยเหลือ' or a.status_name = 'ยกเลิก'`);
   const headers = [{
-    text: 'สถานะ',
-    value: 'status_name'
-  },
-  {
-    text: 'ระดับอาการ',
-    value: ''
-  },
-  {
-    text: 'ชื่อผู้ป่วย',
-    value: 'name'
-  },
-  {
-    text: 'เบอร์โทร',
-    value: 'tel'
-  },
-  {
-    text: 'ที่อยู่',
-    value: 'address'
-  },
-  {
-    text: 'คำอธิบาย',
-    value: 'remark'
-  },
+      text: 'สถานะ',
+      value: 'status_name'
+    },
+    {
+      text: 'ระดับอาการ',
+      value: 'level_name'
+    },
+    {
+      text: 'ชื่อผู้ป่วย',
+      value: 'name'
+    },
+    {
+      text: 'เบอร์โทร',
+      value: 'tel'
+    },
+    {
+      text: 'ที่อยู่',
+      value: 'address'
+    },
+    {
+      text: 'คำอธิบาย',
+      value: 'remark'
+    },
 
   ];
   return res.json({
@@ -643,35 +623,71 @@ app.post('/api/volunteen/getbyuser', async (req, res) => {
 });
 
 app.post('/api/volunteen/updatereport', async (req, res) => {
-  try {
-    const {
-      id
-    } = req.body
-
-    await db.status.update({
-      status_id: "ef9e2e70-d55b-4250-8967-965b7cb0cbc7"
-    }, {
-      where: {
-        id
-      }
-    })
-    return res.json({
-      result: true,
-      message: "ดำเนินการสำเร็จ"
-    })
-  } catch (err) {
+  let data = req.body
+  // console.log('xxxxx', data)
+  const task = await db.tasks.update({
+    status_id: data.status_id
+  }, {
+    where: {
+      id: data.id
+    }
+  })
+  if (!task) {
     return res.json({
       result: false,
-      message: "ดำเนินการไม่สำเร็จ"
+      message: "request error"
     })
   }
+
+  return res.json({
+    result: true,
+    message: "update success"
+  })
 });
 
-//test create api by dreem
+app.post('/api/volunteen/notupdatereport', async (req, res) => {
+  let data = req.body
+  const taskx = await db.tasks.update({
+    status_id: data.status_id
+  }, {
+    where: {
+      id: data.id
+    }
+  })
+
+  return res.json({
+    result: true,
+    message: "update success"
+  })
+})
+
+app.post('/api/volunteen/updatestatus', async (req, res) => {
+  let data = req.body
+  const task = await db.status.update({
+    status_id: "05ad26ab-e04d-422e-bb3e-485c927b6bb5",
+  }, {
+    where: {
+      id: data.id
+    }
+  })
+  if (!task) {
+    return res.json({
+      result: false,
+      message: "request error"
+    })
+  }
+
+  return res.json({
+    result: true,
+    message: "update success"
+  })
+});
+
 app.post('/api/user/getbyID', async (req, res) => {
   let data = req.body
   const results = await db.users.findOne({
-    where: {id:data.id
+    where: {
+      id: data.id
     }
   });
   return res.json({
@@ -682,7 +698,7 @@ app.post('/api/user/getbyID', async (req, res) => {
 app.post('/api/user/update', async (req, res) => {
 
   let data = req.body
-  const user = await db.users.update({
+  const task = await db.users.update({
     first_name: data.first_name,
     last_name: data.last_name,
     tel: data.tel,
@@ -694,7 +710,7 @@ app.post('/api/user/update', async (req, res) => {
     }
   })
 
-  if (!user) {
+  if (!task) {
     return res.json({
       result: false,
       message: "request error"
@@ -703,11 +719,51 @@ app.post('/api/user/update', async (req, res) => {
 
   return res.json({
     result: true,
-    data : user,
     message: "update success"
   })
 });
 
+app.post('/api/tasksvolunteen/getbyIduser', async (req, res) => {
+
+  const {
+    id
+  } = req.body;
+  const [result, metadata] = await db.sequelize.query(`
+  select * from vw_tasks a where a."id" = '${id}' 
+`);
+
+  return res.json({
+    result: result[0]
+  })
+});
+
+
+app.post('/api/task/update', async (req, res) => {
+  let data = req.body
+  const task = await db.tasks.update({
+    status_id: data.status_id,
+    level: data.level
+
+  }, {
+    where: {
+      id: data.id
+    }
+  })
+
+
+
+  if (!task) {
+    return res.json({
+      result: false,
+      message: "request error"
+    })
+  }
+
+  return res.json({
+    result: true,
+    message: "update success"
+  })
+})
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })

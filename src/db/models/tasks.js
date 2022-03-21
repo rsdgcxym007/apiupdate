@@ -30,6 +30,10 @@ module.exports = function(sequelize, DataTypes) {
     user_id_va: {
       type: DataTypes.UUID,
       allowNull: true
+    },
+    level: {
+      type: DataTypes.STRING(255),
+      allowNull: true
     }
   }, {
     sequelize,

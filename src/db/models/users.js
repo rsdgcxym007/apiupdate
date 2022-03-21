@@ -46,10 +46,6 @@ module.exports = function(sequelize, DataTypes) {
     group_id: {
       type: DataTypes.UUID,
       allowNull: true
-    },
-    salvor_id: {
-      type: DataTypes.UUID,
-      allowNull: true
     }
   }, {
     sequelize,
