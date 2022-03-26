@@ -49,7 +49,6 @@ app.post('/api/upload2', async (req, res) => {
   const {
     data
   } = req.body;
-
   const image = await db.uploadimages.create(data)
 
   const status = await db.status.findOne({
@@ -357,7 +356,6 @@ app.post('/api/manage/update', async (req, res) => {
   let data = req.body
   const task = await db.tasks.update({
     remark: data.remark,
-
   }, {
     where: {
       id: data.id
@@ -386,38 +384,38 @@ app.post('/api/volunteen/taskallhelp', async (req, res) => {
   // const results = await prisma.$queryRawUnsafe(`select * from vw_tasks a where a."user_id" = $1`, userId)
   const [results, metadata] = await db.sequelize.query(`select * from vw_tasks a where a.status_name = 'ขอความช่วยเหลือ' `);
   const headers = [{
-      text: 'สถานะ',
-      value: 'status_name'
-    }, {
-      text: 'ประเภท',
-      value: 'type'
-    },
-    {
-      text: 'ชื่อผู้ป่วย',
-      value: 'name'
-    },
-    {
-      text: 'เบอร์โทร',
-      value: 'tel'
-    },
-    {
-      text: 'ที่อยู่',
-      value: 'address'
-    },
-    {
-      text: 'คำอธิบาย',
-      value: 'remark'
-    },
+    text: 'สถานะ',
+    value: 'status_name'
+  }, {
+    text: 'ประเภท',
+    value: 'type'
+  },
+  {
+    text: 'ชื่อผู้ป่วย',
+    value: 'name'
+  },
+  {
+    text: 'เบอร์โทร',
+    value: 'tel'
+  },
+  {
+    text: 'ที่อยู่',
+    value: 'address'
+  },
+  {
+    text: 'คำอธิบาย',
+    value: 'remark'
+  },
 
-    {
-      text: 'วันที่สร้าง',
-      value: 'created_at'
-    },
-    {
-      text: 'Actions',
-      value: 'actions',
-      sortable: false
-    },
+  {
+    text: 'วันที่สร้าง',
+    value: 'created_at'
+  },
+  {
+    text: 'Actions',
+    value: 'actions',
+    sortable: false
+  },
     // {
     //   text: 'ช่วยเหลือ',
     //   value: 'help'
@@ -434,35 +432,35 @@ app.post('/api/manage/taskallbyuserid', async (req, res) => {
     userId
   } = req.body
   // const results = await prisma.$queryRawUnsafe(`select * from vw_tasks a where a."user_id" = $1`, userId)
-  const [results, metadata] = await db.sequelize.query(`select * from vw_tasks a where a."user_id" = '${userId}'`);
+  const [results, metadata] = await db.sequelize.query(`select * from vw_tasks a where a."user_id" = '${userId}' ORDER BY created_at DESC `);
   const headers = [{
-      text: 'สถานะ',
-      value: 'status_name'
-    },
-    // {
-    //   text: 'ระดับอาการ',
-    //   value: ''
-    // },
-    {
-      text: 'ชื่อผู้ป่วย',
-      value: 'name'
-    },
-    {
-      text: 'เบอร์โทร',
-      value: 'tel'
-    },
-    {
-      text: 'ที่อยู่',
-      value: 'address'
-    },
-    {
-      text: 'คำอธิบาย',
-      value: 'remark'
-    },
-    {
-      text: 'วันที่สร้าง',
-      value: 'created_at'
-    },
+    text: 'สถานะ',
+    value: 'status_name'
+  },
+  // {
+  //   text: 'ระดับอาการ',
+  //   value: ''
+  // },
+  // {
+  //   text: 'ชื่อผู้ป่วย',
+  //   value: 'name'
+  // },
+  // {
+  //   text: 'เบอร์โทร',
+  //   value: 'tel'
+  // },
+  {
+    text: 'ที่อยู่',
+    value: 'address'
+  },
+  {
+    text: 'คำอธิบาย',
+    value: 'remark'
+  },
+  {
+    text: 'วันที่สร้าง',
+    value: 'created_at'
+  },
 
   ];
   return res.json({
@@ -569,29 +567,29 @@ app.post('/api/volunteen/takecareuser', async (req, res) => {
   select * from vw_tasks a where a."user_id_va" = '${userId}' 
   and a.status_name = 'ดำเนินการเสร็จสิ้น' or a.status_name = 'กำลังช่วยเหลือ' or a.status_name = 'ยกเลิก'`);
   const headers = [{
-      text: 'สถานะ',
-      value: 'status_name'
-    },
-    {
-      text: 'ระดับอาการ',
-      value: 'level_name'
-    },
-    {
-      text: 'ชื่อผู้ป่วย',
-      value: 'name'
-    },
-    {
-      text: 'เบอร์โทร',
-      value: 'tel'
-    },
-    {
-      text: 'ที่อยู่',
-      value: 'address'
-    },
-    {
-      text: 'คำอธิบาย',
-      value: 'remark'
-    },
+    text: 'สถานะ',
+    value: 'status_name'
+  },
+  {
+    text: 'ระดับอาการ',
+    value: 'level_name'
+  },
+  {
+    text: 'ชื่อผู้ป่วย',
+    value: 'name'
+  },
+  {
+    text: 'เบอร์โทร',
+    value: 'tel'
+  },
+  {
+    text: 'ที่อยู่',
+    value: 'address'
+  },
+  {
+    text: 'คำอธิบาย',
+    value: 'remark'
+  },
 
   ];
   return res.json({
@@ -719,6 +717,7 @@ app.post('/api/user/update', async (req, res) => {
 
   return res.json({
     result: true,
+    data: task,
     message: "update success"
   })
 });
@@ -737,20 +736,29 @@ app.post('/api/tasksvolunteen/getbyIduser', async (req, res) => {
   })
 });
 
+app.post('/api/update/taskallbyuserid', async (req, res) => {
+  const {
+    userId
+  } = req.body
+  // const results = await prisma.$queryRawUnsafe(`select * from vw_tasks a where a."user_id" = $1`, userId)
+  const [results, metadata] = await db.sequelize.query(`select * from vw_tasks a where a."user_id" = '${userId}'`);
+  return res.json({
+    result: results,
+  })
+});
 
-app.post('/api/task/update', async (req, res) => {
+app.post('/api/manage/updatetasks', async (req, res) => {
   let data = req.body
+  console.log('data from: ', data)
   const task = await db.tasks.update({
-    status_id: data.status_id,
-    level: data.level
-
+    remark: data.remark,
+    canceldetail: data.canceldetail,
+    status_id: data.status_id
   }, {
     where: {
       id: data.id
     }
   })
-
-
 
   if (!task) {
     return res.json({
@@ -763,7 +771,44 @@ app.post('/api/task/update', async (req, res) => {
     result: true,
     message: "update success"
   })
+});
+
+app.post('/api/manage/uploadImage', async (req, res) => {
+
+  const { data } = req.body;
+  const image = await db.uploadimages.create(data)
+
+  await db.tasks.update({
+    img_id: image.id,
+    status_id: data.status_id,
+    remark: data.remark
+
+  }, {
+    where: {
+      id: data.task_id
+    }
+  })
+
+  return res.json({
+    message: "success"
+  })
 })
+
+app.post('/api/tasks/getImage', async (req, res) => {
+  let  data = req.body
+  console.log('body is: ', data)
+  console.log('ID is: ' ,data.id)
+  const results = await db.uploadimages.findOne({
+    where: {
+      id:data.id
+    }
+  });
+  return res.json({
+    result: results
+  })
+});
+
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })

@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   return sequelize.define('tasks', {
     id: {
       type: DataTypes.UUID,
@@ -32,6 +32,10 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     },
     level: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    canceldetail: {
       type: DataTypes.STRING(255),
       allowNull: true
     }
