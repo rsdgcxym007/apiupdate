@@ -383,7 +383,12 @@ app.post('/api/volunteen/taskallhelp', async (req, res) => {
   } = req.body
   // const results = await prisma.$queryRawUnsafe(`select * from vw_tasks a where a."user_id" = $1`, userId)
   const [results, metadata] = await db.sequelize.query(`select * from vw_tasks a where a.status_name = 'ขอความช่วยเหลือ' `);
-  const headers = [{
+  const headers = [
+    {
+      text: 'วันที่สร้าง',
+      value: 'created_at'
+    },
+    {
       text: 'สถานะ',
       value: 'status_name'
     }, {
@@ -406,16 +411,12 @@ app.post('/api/volunteen/taskallhelp', async (req, res) => {
       text: 'คำอธิบาย',
       value: 'remark'
     },
-
-    {
-      text: 'วันที่สร้าง',
-      value: 'created_at'
-    },
-    {
-      text: 'Actions',
-      value: 'actions',
-      sortable: false
-    },
+    
+    // {
+    //   text: 'Actions',
+    //   value: 'actions',
+    //   sortable: false
+    // },
     // {
     //   text: 'ช่วยเหลือ',
     //   value: 'help'
@@ -466,23 +467,6 @@ app.post('/api/manage/taskallbyuserid', async (req, res) => {
   return res.json({
     result: results,
     headers
-  })
-});
-
-app.post('/api/tasks/getbyId', async (req, res) => {
-
-  const {
-    id
-  } = req.body;
-
-  const result = await db.tasks.findOne({
-    where: {
-      id
-    }
-  });
-
-  return res.json({
-    result: result
   })
 });
 
@@ -565,8 +549,8 @@ app.post('/api/volunteen/takecareuser', async (req, res) => {
   } = req.body
   // const results = await prisma.$queryRawUnsafe(`select * from vw_tasks a where a."user_id" = $1`, userId)
   const [results, metadata] = await db.sequelize.query(`
-  select * from vw_tasks a where a."user_id_va" = '${userId}' 
-  and a.status_name = 'ดำเนินการเสร็จสิ้น' or a.status_name = 'กำลังช่วยเหลือ' or a.status_name = 'ยกเลิก' or a.status_name = 'หายป่วยแล้ว' `);
+  select * from vw_tasks_volunteer a where a."volunteer_id" = '${userId}' 
+  and (a.status_name = 'ช่วยเหลือเสร็จสิ้น' or a.status_name = 'กำลังช่วยเหลือ' or a.status_name = 'ยกเลิก' or a.status_name = 'หายป่วยแล้ว' )`);
   const headers = [{
       text: 'สถานะ',
       value: 'status_name'
@@ -660,31 +644,31 @@ app.post('/api/volunteen/notupdatereport', async (req, res) => {
   })
 });
 
-app.post('/api/task/update', async (req, res) => {
-  let data = req.body
-  const task = await db.tasks.update({
-    status_id: data.status_id,
-    level: data.level
-  }, {
-    where: {
-      id: data.id
-    }
-  })
+// app.post('/api/task/update', async (req, res) => {
+//   let data = req.body
+//   const task = await db.tasks.update({
+//     status_id: data.status_id,
+//     level: data.level
+//   }, {
+//     where: {
+//       id: data.id
+//     }
+//   })
 
 
 
-  if (!task) {
-    return res.json({
-      result: false,
-      message: "request error"
-    })
-  }
+//   if (!task) {
+//     return res.json({
+//       result: false,
+//       message: "request error"
+//     })
+//   }
 
-  return res.json({
-    result: true,
-    message: "update success"
-  })
-})
+//   return res.json({
+//     result: true,
+//     message: "update success"
+//   })
+// })
 
 // app.post('/api/volunteen/updatestatus', async (req, res) => {
 //   let data = req.body
@@ -871,6 +855,50 @@ app.post('/api/manage/report', async (req, res) => {
   return res.json({
     result: results,
     headers
+  })
+});
+// task
+app.post('/api/task/update', async (req, res) => {
+  let data = req.body
+  const task = await db.tasks.update({
+    remark: data.remark,
+    status_id: data.status_id,
+    canceldetail: data.canceldetail,
+    level: data.level,
+    volunteer_id: data.volunteer_id
+  }, {
+    where: {
+      id: data.id
+    }
+  })
+
+  if (!task) {
+    return res.json({
+      result: false,
+      message: "request error"
+    })
+  }
+
+  return res.json({
+    result: true,
+    message: "update success"
+  })
+})
+
+app.post('/api/tasks/getbyId', async (req, res) => {
+
+  const {
+    id
+  } = req.body;
+
+  const result = await db.tasks.findOne({
+    where: {
+      id
+    }
+  });
+
+  return res.json({
+    result: result
   })
 });
 

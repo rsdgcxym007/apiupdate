@@ -42,6 +42,10 @@ module.exports = function (sequelize, DataTypes) {
     address_id: {
       type: DataTypes.INTEGER(4),
       allowNull: true
+    },
+    volunteer_id: {
+      type: DataTypes.UUID,
+      allowNull: true
     }
   }, {
     sequelize,
