@@ -802,9 +802,8 @@ app.post('/api/manage/updatetasks', async (req, res) => {
 
 app.post('/api/manage/uploadImage', async (req, res) => {
 
-  const {
-    data
-  } = req.body;
+  const { data } = req.body;
+
   const image = await db.uploadimages.create(data)
 
   await db.tasks.update({
@@ -874,6 +873,35 @@ app.post('/api/manage/report', async (req, res) => {
     headers
   })
 });
+
+app.post('/api/Address/getAddress', async (req, res) => {
+
+  let data = req.body;
+  console.log('data in ID', data)
+  const result = await db.address.findOne({
+    where: {
+      id: data.id
+    }
+  });
+  console.log('result = ', result)
+  return res.json({
+    result: result
+  })
+});
+
+
+app.post('/api/Address/createAddress', async (req, res) => {
+
+  const  data  = req.body;
+  console.log('data from body: ', data)
+  const isAddress = await db.address.create(data)
+  console.log('data after add', isAddress)
+
+  return res.json({
+    message: "success",
+    result: isAddress
+  })
+})
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)

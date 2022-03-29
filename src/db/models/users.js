@@ -46,6 +46,10 @@ module.exports = function(sequelize, DataTypes) {
     group_id: {
       type: DataTypes.UUID,
       allowNull: true
+    },
+    current_address: {
+      type: DataTypes.INTEGER(4),
+      allowNull: true
     }
   }, {
     sequelize,

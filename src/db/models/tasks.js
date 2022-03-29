@@ -38,6 +38,10 @@ module.exports = function (sequelize, DataTypes) {
     canceldetail: {
       type: DataTypes.STRING(255),
       allowNull: true
+    },
+    address_id: {
+      type: DataTypes.INTEGER(4),
+      allowNull: true
     }
   }, {
     sequelize,
