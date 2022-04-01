@@ -411,7 +411,7 @@ app.post('/api/volunteen/taskallhelp', async (req, res) => {
       text: 'คำอธิบาย',
       value: 'remark'
     },
-    
+
     // {
     //   text: 'Actions',
     //   value: 'actions',
@@ -435,33 +435,33 @@ app.post('/api/manage/taskallbyuserid', async (req, res) => {
   // const results = await prisma.$queryRawUnsafe(`select * from vw_tasks a where a."user_id" = $1`, userId)
   const [results, metadata] = await db.sequelize.query(`select * from vw_tasks a where a."user_id" = '${userId}' ORDER BY created_at DESC `);
   const headers = [{
-      text: 'สถานะ',
-      value: 'status_name'
-    },
-    // {
-    //   text: 'ระดับอาการ',
-    //   value: ''
-    // },
-    // {
-    //   text: 'ชื่อผู้ป่วย',
-    //   value: 'name'
-    // },
-    // {
-    //   text: 'เบอร์โทร',
-    //   value: 'tel'
-    // },
-    {
-      text: 'ที่อยู่',
-      value: 'address'
-    },
-    {
-      text: 'คำอธิบาย',
-      value: 'remark'
-    },
-    {
-      text: 'วันที่สร้าง',
-      value: 'created_at'
-    },
+    text: 'สถานะ',
+    value: 'status_name'
+  },
+  // {
+  //   text: 'ระดับอาการ',
+  //   value: ''
+  // },
+  // {
+  //   text: 'ชื่อผู้ป่วย',
+  //   value: 'name'
+  // },
+  // {
+  //   text: 'เบอร์โทร',
+  //   value: 'tel'
+  // },
+  {
+    text: 'ที่อยู่',
+    value: 'address'
+  },
+  {
+    text: 'คำอธิบาย',
+    value: 'remark'
+  },
+  {
+    text: 'วันที่สร้าง',
+    value: 'created_at'
+  },
 
   ];
   return res.json({
@@ -552,29 +552,29 @@ app.post('/api/volunteen/takecareuser', async (req, res) => {
   select * from vw_tasks_volunteer a where a."volunteer_id" = '${userId}' 
   and (a.status_name = 'ช่วยเหลือเสร็จสิ้น' or a.status_name = 'กำลังช่วยเหลือ' or a.status_name = 'ยกเลิก' or a.status_name = 'หายป่วยแล้ว' )`);
   const headers = [{
-      text: 'สถานะ',
-      value: 'status_name'
-    },
-    {
-      text: 'ระดับอาการ',
-      value: 'level_name'
-    },
-    {
-      text: 'ชื่อผู้ป่วย',
-      value: 'name'
-    },
-    {
-      text: 'เบอร์โทร',
-      value: 'tel'
-    },
-    {
-      text: 'ที่อยู่',
-      value: 'address'
-    },
-    {
-      text: 'คำอธิบาย',
-      value: 'remark'
-    },
+    text: 'สถานะ',
+    value: 'status_name'
+  },
+  {
+    text: 'ระดับอาการ',
+    value: 'level_name'
+  },
+  {
+    text: 'ชื่อผู้ป่วย',
+    value: 'name'
+  },
+  {
+    text: 'เบอร์โทร',
+    value: 'tel'
+  },
+  {
+    text: 'ที่อยู่',
+    value: 'address'
+  },
+  {
+    text: 'คำอธิบาย',
+    value: 'remark'
+  },
 
   ];
   return res.json({
@@ -692,47 +692,6 @@ app.post('/api/volunteen/notupdatereport', async (req, res) => {
 //   })
 // });
 
-app.post('/api/user/getbyID', async (req, res) => {
-  let data = req.body
-  const results = await db.users.findOne({
-    where: {
-      id: data.id
-    }
-  });
-  return res.json({
-    result: results
-  })
-});
-
-app.post('/api/user/update', async (req, res) => {
-
-  let data = req.body
-  const task = await db.users.update({
-    first_name: data.first_name,
-    last_name: data.last_name,
-    tel: data.tel,
-    address: data.address
-
-  }, {
-    where: {
-      id: data.id
-    }
-  })
-
-  if (!task) {
-    return res.json({
-      result: false,
-      message: "request error"
-    })
-  }
-
-  return res.json({
-    result: true,
-    data: task,
-    message: "update success"
-  })
-});
-
 app.post('/api/tasksvolunteen/getbyIduser', async (req, res) => {
 
   const {
@@ -827,29 +786,29 @@ app.post('/api/manage/report', async (req, res) => {
   // const results = await prisma.$queryRawUnsafe(`select * from vw_tasks a where a."user_id" = $1`, userId)
   const [results, metadata] = await db.sequelize.query(`select * from vw_tasks a where a.status_name = 'หายป่วยแล้ว' `);
   const headers = [{
-      text: 'สถานะ',
-      value: 'status_name'
-    },
-    // {
-    //   text: 'ระดับอาการ',
-    //   value: 'level_name'
-    // },
-    {
-      text: 'ชื่อผู้ป่วย',
-      value: 'name'
-    },
-    {
-      text: 'เบอร์โทร',
-      value: 'tel'
-    },
-    {
-      text: 'ที่อยู่',
-      value: 'address'
-    },
-    {
-      text: 'คำอธิบาย',
-      value: 'remark'
-    },
+    text: 'สถานะ',
+    value: 'status_name'
+  },
+  // {
+  //   text: 'ระดับอาการ',
+  //   value: 'level_name'
+  // },
+  {
+    text: 'ชื่อผู้ป่วย',
+    value: 'name'
+  },
+  {
+    text: 'เบอร์โทร',
+    value: 'tel'
+  },
+  {
+    text: 'ที่อยู่',
+    value: 'address'
+  },
+  {
+    text: 'คำอธิบาย',
+    value: 'remark'
+  },
 
   ];
   return res.json({
@@ -903,8 +862,8 @@ app.post('/api/tasks/getbyId', async (req, res) => {
 });
 
 app.post('/api/Address/getAddress', async (req, res) => {
-
-  let data = req.body;
+  //ยังไม่ได้เรียกใช้
+  const data = req.body;
   console.log('data in ID', data)
   const result = await db.address.findOne({
     where: {
@@ -919,17 +878,69 @@ app.post('/api/Address/getAddress', async (req, res) => {
 
 
 app.post('/api/Address/createAddress', async (req, res) => {
-
-  const  data  = req.body;
+  //ยังไม่ได้เรียกใช้
+  const data = req.body;
   console.log('data from body: ', data)
-  const isAddress = await db.address.create(data)
-  console.log('data after add', isAddress)
+  const address = await db.address.create(data)
+  console.log('data after add', address)
 
   return res.json({
     message: "success",
-    result: isAddress
+    result: address
   })
 })
+
+app.post('/api/user/getbyID', async (req, res) => {
+  const data = req.body;
+  const [results, metadata] = await db.sequelize.query(`
+    select a.first_name,
+           a.last_name ,
+           a.email,
+           a.tel,
+           b.position,
+           b.description,
+           b.place
+    from users a join address b on a.current_address = b.id
+    where a.id = '${data.id}' `)
+
+  return res.json({
+    result: results[0]
+    // headers
+  })
+});
+
+app.post('/api/user/update', async (req, res) => {
+
+  const { data } = req.body;
+  const address = await db.address.create(data)
+  if (address) {
+    const userInfo = await db.users.update({
+      first_name: data.first_name,
+      last_name: data.last_name,
+      tel: data.tel,
+      current_address: address.id
+    }, {
+      where: {
+        id: data.user_id
+      }
+    })
+    if (!userInfo) {
+      return res.json({
+        message: 'update error'
+      })
+    } else {
+      return res.json({
+        result: true,
+        message: 'update success'
+      })
+    }
+  } else {
+    return res.json({
+      message: 'create address error'
+    })
+  }
+});
+
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)

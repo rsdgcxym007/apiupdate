@@ -12,6 +12,10 @@ module.exports = function (sequelize, DataTypes) {
         user_id: {
             type: DataTypes.UUID,
             allowNull: true
+        },
+        place: {
+            type: DataTypes.STRING(255),
+            allowNull: true
         }
     }, {
         sequelize,
