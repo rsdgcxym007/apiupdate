@@ -154,16 +154,26 @@ app.post('/api/auth/login', async (req, res) => {
 
 app.post('/api/auth/register', async (req, res) => {
   const data = req.body;
-
-  // return res.json(data)
+  if(data.group== "ผู้ป่วย" && (!data.address || !data.position)) {
+    return res.json({
+      result: false,
+      message: 'address is required'
+    })
+  }
+  if(data.group== "ผู้ป่วย"){
+    const address = await db.address.create(data)
+    if (address) {
+      data.current_address = address.id
+    } 
+  }
   const {
     first_name,
     last_name,
     tel,
     email,
     password,
-    address,
-    group
+    group,
+    current_address
   } = data
   let error = false;
   let message = '';
@@ -220,11 +230,7 @@ app.post('/api/auth/register', async (req, res) => {
     count++
     error = true
   }
-  if (!address.length > 5) {
-    message += !count ? 'address less than 5 char' : ", " + 'address less than 5 char'
-    count++
-    error = true
-  }
+
   const user = await db.users.findOne({
     where: {
       email: data.email
@@ -902,7 +908,7 @@ app.post('/api/user/getbyID', async (req, res) => {
            b.place
     from users a join address b on a.current_address = b.id
     where a.id = '${data.id}' `)
-
+    
   return res.json({
     result: results[0]
     // headers
