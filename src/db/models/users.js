@@ -31,24 +31,12 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-    lat_lng: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    status: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    type: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
     group_id: {
       type: DataTypes.UUID,
       allowNull: true
     },
     current_address: {
-      type: DataTypes.INTEGER(4),
+      type: DataTypes.INTEGER,
       allowNull: true
     }
   }, {

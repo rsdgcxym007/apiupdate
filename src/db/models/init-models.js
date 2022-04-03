@@ -1,4 +1,5 @@
 var DataTypes = require("sequelize").DataTypes;
+var _address = require("./address");
 var _groups = require("./groups");
 var _status = require("./status");
 var _status2 = require("./status2");
@@ -10,6 +11,7 @@ var _uploadimages = require("./uploadimages");
 var _users = require("./users");
 
 function initModels(sequelize) {
+  var address = _address(sequelize, DataTypes);
   var groups = _groups(sequelize, DataTypes);
   var status = _status(sequelize, DataTypes);
   var status2 = _status2(sequelize, DataTypes);
@@ -22,6 +24,7 @@ function initModels(sequelize) {
 
 
   return {
+    address,
     groups,
     status,
     status2,

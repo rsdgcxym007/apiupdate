@@ -154,18 +154,20 @@ app.post('/api/auth/login', async (req, res) => {
 
 app.post('/api/auth/register', async (req, res) => {
   const data = req.body;
-  if(data.group== "ผู้ป่วย" && (!data.address || !data.position)) {
+  if (!data.address || !data.position) {
     return res.json({
       result: false,
       message: 'address is required'
     })
   }
-  if(data.group== "ผู้ป่วย"){
-    const address = await db.address.create(data)
-    if (address) {
-      data.current_address = address.id
-    } 
+  // if (data.group == "ผู้ป่วย") {
+
+  const address = await db.address.create(data)
+  if (address) {
+    data.current_address = address.id
   }
+  // }
+  console.log(data)
   const {
     first_name,
     last_name,
@@ -250,7 +252,7 @@ app.post('/api/auth/register', async (req, res) => {
       message
     })
   }
-
+  console.log('data', data)
   await db.users.create(data);
 
   return res.json({
@@ -389,8 +391,7 @@ app.post('/api/volunteen/taskallhelp', async (req, res) => {
   } = req.body
   // const results = await prisma.$queryRawUnsafe(`select * from vw_tasks a where a."user_id" = $1`, userId)
   const [results, metadata] = await db.sequelize.query(`select * from vw_tasks a where a.status_name = 'ขอความช่วยเหลือ' `);
-  const headers = [
-    {
+  const headers = [{
       text: 'วันที่สร้าง',
       value: 'created_at'
     },
@@ -441,33 +442,33 @@ app.post('/api/manage/taskallbyuserid', async (req, res) => {
   // const results = await prisma.$queryRawUnsafe(`select * from vw_tasks a where a."user_id" = $1`, userId)
   const [results, metadata] = await db.sequelize.query(`select * from vw_tasks a where a."user_id" = '${userId}' ORDER BY created_at DESC `);
   const headers = [{
-    text: 'สถานะ',
-    value: 'status_name'
-  },
-  // {
-  //   text: 'ระดับอาการ',
-  //   value: ''
-  // },
-  // {
-  //   text: 'ชื่อผู้ป่วย',
-  //   value: 'name'
-  // },
-  // {
-  //   text: 'เบอร์โทร',
-  //   value: 'tel'
-  // },
-  {
-    text: 'ที่อยู่',
-    value: 'address'
-  },
-  {
-    text: 'คำอธิบาย',
-    value: 'remark'
-  },
-  {
-    text: 'วันที่สร้าง',
-    value: 'created_at'
-  },
+      text: 'สถานะ',
+      value: 'status_name'
+    },
+    // {
+    //   text: 'ระดับอาการ',
+    //   value: ''
+    // },
+    // {
+    //   text: 'ชื่อผู้ป่วย',
+    //   value: 'name'
+    // },
+    // {
+    //   text: 'เบอร์โทร',
+    //   value: 'tel'
+    // },
+    {
+      text: 'ที่อยู่',
+      value: 'address'
+    },
+    {
+      text: 'คำอธิบาย',
+      value: 'remark'
+    },
+    {
+      text: 'วันที่สร้าง',
+      value: 'created_at'
+    },
 
   ];
   return res.json({
@@ -558,29 +559,29 @@ app.post('/api/volunteen/takecareuser', async (req, res) => {
   select * from vw_tasks_volunteer a where a."volunteer_id" = '${userId}' 
   and (a.status_name = 'ช่วยเหลือเสร็จสิ้น' or a.status_name = 'กำลังช่วยเหลือ' or a.status_name = 'ยกเลิก' or a.status_name = 'หายป่วยแล้ว' )`);
   const headers = [{
-    text: 'สถานะ',
-    value: 'status_name'
-  },
-  {
-    text: 'ระดับอาการ',
-    value: 'level_name'
-  },
-  {
-    text: 'ชื่อผู้ป่วย',
-    value: 'name'
-  },
-  {
-    text: 'เบอร์โทร',
-    value: 'tel'
-  },
-  {
-    text: 'ที่อยู่',
-    value: 'address'
-  },
-  {
-    text: 'คำอธิบาย',
-    value: 'remark'
-  },
+      text: 'สถานะ',
+      value: 'status_name'
+    },
+    {
+      text: 'ระดับอาการ',
+      value: 'level_name'
+    },
+    {
+      text: 'ชื่อผู้ป่วย',
+      value: 'name'
+    },
+    {
+      text: 'เบอร์โทร',
+      value: 'tel'
+    },
+    {
+      text: 'ที่อยู่',
+      value: 'address'
+    },
+    {
+      text: 'คำอธิบาย',
+      value: 'remark'
+    },
 
   ];
   return res.json({
@@ -751,7 +752,9 @@ app.post('/api/manage/updatetasks', async (req, res) => {
 
 app.post('/api/manage/uploadImage', async (req, res) => {
 
-  const { data } = req.body;
+  const {
+    data
+  } = req.body;
 
   const image = await db.uploadimages.create(data)
 
@@ -792,29 +795,29 @@ app.post('/api/manage/report', async (req, res) => {
   // const results = await prisma.$queryRawUnsafe(`select * from vw_tasks a where a."user_id" = $1`, userId)
   const [results, metadata] = await db.sequelize.query(`select * from vw_tasks a where a.status_name = 'หายป่วยแล้ว' `);
   const headers = [{
-    text: 'สถานะ',
-    value: 'status_name'
-  },
-  // {
-  //   text: 'ระดับอาการ',
-  //   value: 'level_name'
-  // },
-  {
-    text: 'ชื่อผู้ป่วย',
-    value: 'name'
-  },
-  {
-    text: 'เบอร์โทร',
-    value: 'tel'
-  },
-  {
-    text: 'ที่อยู่',
-    value: 'address'
-  },
-  {
-    text: 'คำอธิบาย',
-    value: 'remark'
-  },
+      text: 'สถานะ',
+      value: 'status_name'
+    },
+    // {
+    //   text: 'ระดับอาการ',
+    //   value: 'level_name'
+    // },
+    {
+      text: 'ชื่อผู้ป่วย',
+      value: 'name'
+    },
+    {
+      text: 'เบอร์โทร',
+      value: 'tel'
+    },
+    {
+      text: 'ที่อยู่',
+      value: 'address'
+    },
+    {
+      text: 'คำอธิบาย',
+      value: 'remark'
+    },
 
   ];
   return res.json({
@@ -822,7 +825,7 @@ app.post('/api/manage/report', async (req, res) => {
     headers
   })
 });
-// task
+
 app.post('/api/task/update', async (req, res) => {
   let data = req.body
   const task = await db.tasks.update({
@@ -908,7 +911,7 @@ app.post('/api/user/getbyID', async (req, res) => {
            b.place
     from users a join address b on a.current_address = b.id
     where a.id = '${data.id}' `)
-    
+
   return res.json({
     result: results[0]
     // headers
@@ -917,7 +920,9 @@ app.post('/api/user/getbyID', async (req, res) => {
 
 app.post('/api/user/update', async (req, res) => {
 
-  const { data } = req.body;
+  const {
+    data
+  } = req.body;
   const address = await db.address.create(data)
   if (address) {
     const userInfo = await db.users.update({
@@ -945,6 +950,72 @@ app.post('/api/user/update', async (req, res) => {
       message: 'create address error'
     })
   }
+});
+
+app.post('/api/admin/alluser', async (req, res) => {
+  const {
+    userId
+  } = req.body
+  // const results = await prisma.$queryRawUnsafe(`select * from vw_tasks a where a."user_id" = $1`, userId)
+  const [results, metadata] = await db.sequelize.query(`select * from vw_tasks_allUsers c where c."group_id" = '51b0e763-1f09-416a-afa9-d2f0ce78e9e6'`);
+  const headers = [{
+      text: 'สถานะ',
+      value: 'status_name'
+    },
+    {
+      text: 'ชื่อ',
+      value: 'name'
+    },
+    {
+      text: 'เบอร์โทร',
+      value: 'tel'
+    },
+    {
+      text: 'ที่อยู่',
+      value: 'address'
+    },
+    {
+      text: 'วันที่สร้าง',
+      value: 'created_at'
+    },
+
+  ];
+  console.log('xddsad', results)
+  return res.json({
+    result: results,
+    headers
+
+  })
+});
+
+app.post('/api/admin/allvolunteen', async (req, res) => {
+  const {
+    userId
+  } = req.body
+  // const results = await prisma.$queryRawUnsafe(`select * from vw_tasks a where a."user_id" = $1`, userId)
+  const [results, metadata] = await db.sequelize.query(`select * from vw_tasks_allVa a where a."group_id" = '87191711-d7ff-4664-b648-8e9bceaab5ea'`);
+  const headers = [{
+      text: 'สถานะ',
+      value: 'groups_name'
+    },
+    {
+      text: 'ชื่อ',
+      value: 'name'
+    },
+    {
+      text: 'เบอร์โทร',
+      value: 'tel'
+    },
+    {
+      text: 'ที่อยู่',
+      value: 'address'
+    },
+  ];
+  console.log('xddsad', results)
+  return res.json({
+    result: results,
+    headers
+  })
 });
 
 
