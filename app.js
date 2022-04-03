@@ -160,12 +160,12 @@ app.post('/api/auth/register', async (req, res) => {
       message: 'address is required'
     })
   }
-  
+
   const address = await db.address.create(data)
   if (address) {
     data.current_address = address.id
   }
-  
+
   console.log(data)
   const {
     first_name,
@@ -416,7 +416,7 @@ app.post('/api/volunteen/taskallhelp', async (req, res) => {
       text: 'คำอธิบาย',
       value: 'remark'
     },
-    
+
     // {
     //   text: 'Actions',
     //   value: 'actions',
@@ -947,7 +947,9 @@ app.post('/api/user/getbyID', async (req, res) => {
 
 app.post('/api/user/update', async (req, res) => {
 
-  const { data } = req.body;
+  const {
+    data
+  } = req.body;
 
   const address = await db.address.update({
     position: data.position,
@@ -992,6 +994,10 @@ app.post('/api/admin/alluser', async (req, res) => {
   // const results = await prisma.$queryRawUnsafe(`select * from vw_tasks a where a."user_id" = $1`, userId)
   const [results, metadata] = await db.sequelize.query(`select * from vw_tasks_allUsers c where c."group_id" = '51b0e763-1f09-416a-afa9-d2f0ce78e9e6'`);
   const headers = [{
+      text: 'id',
+      value: 'id'
+    },
+    {
       text: 'สถานะ',
       value: 'status_name'
     },
@@ -1003,10 +1009,10 @@ app.post('/api/admin/alluser', async (req, res) => {
       text: 'เบอร์โทร',
       value: 'tel'
     },
-    {
-      text: 'ที่อยู่',
-      value: 'address'
-    },
+    // {
+    //   text: 'ที่อยู่',
+    //   value: 'address'
+    // },
     {
       text: 'วันที่สร้าง',
       value: 'created_at'
@@ -1052,7 +1058,9 @@ app.post('/api/admin/allvolunteen', async (req, res) => {
 });
 
 app.post('/api/user/request', async (req, res) => {
-  const {data} = req.body;
+  const {
+    data
+  } = req.body;
   console.log('data from body', data)
   const address = await db.address.create(data)
   if (!address) {
@@ -1085,6 +1093,65 @@ app.post('/api/user/request', async (req, res) => {
       result: true
     })
   }
+});
+
+
+app.post('/api/user/getAll', async (req, res) => {
+
+  // if (data.group_id == '51b0e763-1f09-416a-afa9-d2f0ce78e9e6') {
+  const [results, metadata] = await db.sequelize.query(`
+    select a.first_name,
+           a.last_name ,
+           a.email,
+           a.tel,
+           b.id address_id,
+           b.position,
+           b.address_from_gmap,
+           b.address_from_user
+    from users a join address b on a.current_address = b.id where a.group_id = '51b0e763-1f09-416a-afa9-d2f0ce78e9e6' `)
+  console.log('result is: ', results)
+  const headers = [{
+      text: 'สถานะ',
+      value: 'status'
+    },
+    {
+      text: 'ชื่อ',
+      value: 'first_name'
+    },
+    {
+      text: 'เบอร์โทร',
+      value: 'tel'
+    },
+  ];
+  if (results == '') {
+    return res.json({
+      message: 'Not Found Data'
+    })
+  } else {
+    return res.json({
+      result: results,
+      headers,
+      message: 'success'
+
+    })
+  }
+  // } else {
+  //   const results = await db.users.findOne({
+  //     where: {
+  //       id: data.id
+  //     }
+  //   });
+  //   if (results == '') {
+  //     return res.json({
+  //       message: 'Not Found Data'
+  //     })
+  //   } else {
+  //     return res.json({
+  //       result: results,
+  //       message: 'success'
+  //     })
+  //   }
+  // }
 });
 
 app.listen(port, () => {

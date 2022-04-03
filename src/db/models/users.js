@@ -27,15 +27,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-    lat_lng: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    status: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    type: {
+    address: {
       type: DataTypes.STRING(255),
       allowNull: true
     },
@@ -45,6 +37,10 @@ module.exports = function(sequelize, DataTypes) {
     },
     current_address: {
       type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    status: {
+      type: DataTypes.STRING(50),
       allowNull: true
     }
   }, {

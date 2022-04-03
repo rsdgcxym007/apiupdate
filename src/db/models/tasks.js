@@ -27,6 +27,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.UUID,
       allowNull: true
     },
+    user_id_va: {
+      type: DataTypes.UUID,
+      allowNull: true
+    },
     level: {
       type: DataTypes.STRING(255),
       allowNull: true
@@ -37,6 +41,10 @@ module.exports = function(sequelize, DataTypes) {
     },
     volunteer_id: {
       type: DataTypes.UUID,
+      allowNull: true
+    },
+    address_from_user: {
+      type: DataTypes.STRING(255),
       allowNull: true
     },
     congenital_disease: {
