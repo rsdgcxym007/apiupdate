@@ -50,6 +50,10 @@ module.exports = function(sequelize, DataTypes) {
     treatment_location: {
       type: DataTypes.STRING(255),
       allowNull: true
+    },
+    volunteer_id: {
+      type: DataTypes.UUID,
+      allowNull: true
     }
   }, {
     sequelize,

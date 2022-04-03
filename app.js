@@ -154,7 +154,7 @@ app.post('/api/auth/login', async (req, res) => {
 
 app.post('/api/auth/register', async (req, res) => {
   const data = req.body;
-  if (!data.address || !data.position) {
+  if (!data.address_from_gmap || !data.position) {
     return res.json({
       result: false,
       message: 'address is required'
@@ -416,7 +416,7 @@ app.post('/api/volunteen/taskallhelp', async (req, res) => {
       text: 'คำอธิบาย',
       value: 'remark'
     },
-
+    
     // {
     //   text: 'Actions',
     //   value: 'actions',
