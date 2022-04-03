@@ -27,20 +27,28 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.UUID,
       allowNull: true
     },
-    user_id_va: {
-      type: DataTypes.UUID,
-      allowNull: true
-    },
     level: {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-    canceldetail: {
+    cancel_detail: {
       type: DataTypes.STRING(255),
       allowNull: true
     },
     volunteer_id: {
       type: DataTypes.UUID,
+      allowNull: true
+    },
+    congenital_disease: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    requirement: {
+      type: DataTypes.JSON,
+      allowNull: true
+    },
+    treatment_location: {
+      type: DataTypes.STRING(255),
       allowNull: true
     }
   }, {

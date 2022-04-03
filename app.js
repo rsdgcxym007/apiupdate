@@ -160,13 +160,12 @@ app.post('/api/auth/register', async (req, res) => {
       message: 'address is required'
     })
   }
-  // if (data.group == "ผู้ป่วย") {
-
+  
   const address = await db.address.create(data)
   if (address) {
     data.current_address = address.id
   }
-  // }
+  
   console.log(data)
   const {
     first_name,
@@ -175,7 +174,6 @@ app.post('/api/auth/register', async (req, res) => {
     email,
     password,
     group,
-    current_address
   } = data
   let error = false;
   let message = '';
@@ -729,7 +727,7 @@ app.post('/api/manage/updatetasks', async (req, res) => {
   console.log('data from: ', data)
   const task = await db.tasks.update({
     remark: data.remark,
-    canceldetail: data.canceldetail,
+    cancel_detail: data.cancel_detail,
     status_id: data.status_id
   }, {
     where: {
@@ -831,7 +829,7 @@ app.post('/api/task/update', async (req, res) => {
   const task = await db.tasks.update({
     remark: data.remark,
     status_id: data.status_id,
-    canceldetail: data.canceldetail,
+    cancel_detail: data.cancel_detail,
     level: data.level,
     volunteer_id: data.volunteer_id
   }, {
@@ -900,36 +898,71 @@ app.post('/api/Address/createAddress', async (req, res) => {
 })
 
 app.post('/api/user/getbyID', async (req, res) => {
+
   const data = req.body;
-  const [results, metadata] = await db.sequelize.query(`
+  console.log('data from body', data)
+
+  if (data.group_id == '51b0e763-1f09-416a-afa9-d2f0ce78e9e6' || data.group_id == '87191711-d7ff-4664-b648-8e9bceaab5ea') {
+    const [results, metadata] = await db.sequelize.query(`
     select a.first_name,
            a.last_name ,
            a.email,
            a.tel,
+           b.id address_id,
            b.position,
-           b.description,
-           b.place
+           b.address_from_gmap,
+           b.address_from_user
     from users a join address b on a.current_address = b.id
     where a.id = '${data.id}' `)
-
-  return res.json({
-    result: results[0]
-    // headers
-  })
+    console.log('result is: ', results)
+    if (results == '') {
+      return res.json({
+        message: 'Not Found Data'
+      })
+    } else {
+      return res.json({
+        result: results[0],
+        message: 'success'
+        // headers
+      })
+    }
+  } else {
+    const results = await db.users.findOne({
+      where: {
+        id: data.id
+      }
+    });
+    if (results == '') {
+      return res.json({
+        message: 'Not Found Data'
+      })
+    } else {
+      return res.json({
+        result: results,
+        message: 'success'
+      })
+    }
+  }
 });
 
 app.post('/api/user/update', async (req, res) => {
 
-  const {
-    data
-  } = req.body;
-  const address = await db.address.create(data)
+  const { data } = req.body;
+
+  const address = await db.address.update({
+    position: data.position,
+    address_from_gmap: data.address_from_gmap,
+    address_from_user: data.address_from_user
+  }, {
+    where: {
+      id: data.address_id
+    }
+  })
   if (address) {
     const userInfo = await db.users.update({
       first_name: data.first_name,
       last_name: data.last_name,
-      tel: data.tel,
-      current_address: address.id
+      tel: data.tel
     }, {
       where: {
         id: data.user_id
@@ -937,7 +970,7 @@ app.post('/api/user/update', async (req, res) => {
     })
     if (!userInfo) {
       return res.json({
-        message: 'update error'
+        message: 'update user error'
       })
     } else {
       return res.json({
@@ -947,7 +980,7 @@ app.post('/api/user/update', async (req, res) => {
     }
   } else {
     return res.json({
-      message: 'create address error'
+      message: 'update address error'
     })
   }
 });
@@ -1018,6 +1051,41 @@ app.post('/api/admin/allvolunteen', async (req, res) => {
   })
 });
 
+app.post('/api/user/request', async (req, res) => {
+  const {data} = req.body;
+  console.log('data from body', data)
+  const address = await db.address.create(data)
+  if (!address) {
+    return res.json({
+      message: 'create Address failed !'
+    })
+  } else {
+    data.address_id = address.id
+  }
+  const status = await db.status.findOne({
+    where: {
+      name: data.status
+    }
+  })
+  if (!status) {
+    return res.json({
+      message: 'Not Found Status !'
+    })
+  } else {
+    data.status_id = status.id
+  }
+  const newTask = await db.tasks.create(data)
+  if (!newTask) {
+    return res.json({
+      message: 'create newTask failed !'
+    })
+  } else {
+    return res.json({
+      message: 'success',
+      result: true
+    })
+  }
+});
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
