@@ -447,18 +447,18 @@ app.post('/api/manage/taskallbyuserid', async (req, res) => {
     //   text: 'ระดับอาการ',
     //   value: ''
     // },
-    // {
-    //   text: 'ชื่อผู้ป่วย',
-    //   value: 'name'
-    // },
+    {
+      text: 'ชื่อผู้ป่วย',
+      value: 'name'
+    },
     // {
     //   text: 'เบอร์โทร',
     //   value: 'tel'
     // },
-    {
-      text: 'ที่อยู่',
-      value: 'address'
-    },
+    // {
+    //   text: 'ที่อยู่',
+    //   value: 'address'
+    // },
     {
       text: 'คำอธิบาย',
       value: 'remark'
@@ -902,7 +902,7 @@ app.post('/api/user/getbyID', async (req, res) => {
   const data = req.body;
   console.log('data from body', data)
 
-  if (data.group_id == '51b0e763-1f09-416a-afa9-d2f0ce78e9e6' || data.group_id == '87191711-d7ff-4664-b648-8e9bceaab5ea') {
+  if (data.group_id == '51b0e763-1f09-416a-afa9-d2f0ce78e9e6' || data.group_id == '87191711-d7ff-4664-b648-8e9bceaab5ea' || data.group_id == '4e095238-1b60-4303-a207-8927d9c992d5') {
     const [results, metadata] = await db.sequelize.query(`
     select a.first_name,
            a.last_name ,
@@ -1035,7 +1035,7 @@ app.post('/api/admin/allvolunteen', async (req, res) => {
   const [results, metadata] = await db.sequelize.query(`select * from vw_tasks_allVa a where a."group_id" = '87191711-d7ff-4664-b648-8e9bceaab5ea'`);
   const headers = [{
       text: 'สถานะ',
-      value: 'groups_name'
+      value: 'groups_Id'
     },
     {
       text: 'ชื่อ',
@@ -1105,6 +1105,7 @@ app.post('/api/user/getAll', async (req, res) => {
            a.email,
            a.tel,
            b.id address_id,
+           a.id,
            b.position,
            b.address_from_gmap,
            b.address_from_user
@@ -1112,7 +1113,68 @@ app.post('/api/user/getAll', async (req, res) => {
   console.log('result is: ', results)
   const headers = [{
       text: 'สถานะ',
-      value: 'status'
+      value: 'id'
+    },
+    {
+      text: 'ชื่อ',
+      value: 'first_name'
+    },
+    {
+      text: 'เบอร์โทร',
+      value: 'tel'
+    },
+  ];
+  if (results == '') {
+    return res.json({
+      message: 'Not Found Data'
+    })
+  } else {
+    return res.json({
+      result: results,
+      headers,
+      message: 'success'
+
+    })
+  }
+  // } else {
+  //   const results = await db.users.findOne({
+  //     where: {
+  //       id: data.id
+  //     }
+  //   });
+  //   if (results == '') {
+  //     return res.json({
+  //       message: 'Not Found Data'
+  //     })
+  //   } else {
+  //     return res.json({
+  //       result: results,
+  //       message: 'success'
+  //     })
+  //   }
+  // }
+});
+
+
+
+app.post('/api/user/getAllVA', async (req, res) => {
+
+  // if (data.group_id == '51b0e763-1f09-416a-afa9-d2f0ce78e9e6') {
+  const [results, metadata] = await db.sequelize.query(`
+    select a.first_name,
+           a.last_name ,
+           a.email,
+           a.tel,
+           b.id address_id,
+           a.id,
+           b.position,
+           b.address_from_gmap,
+           b.address_from_user
+    from users a join address b on a.current_address = b.id where a.group_id = '87191711-d7ff-4664-b648-8e9bceaab5ea' `)
+  console.log('result is: ', results)
+  const headers = [{
+      text: 'สถานะ',
+      value: 'id'
     },
     {
       text: 'ชื่อ',
