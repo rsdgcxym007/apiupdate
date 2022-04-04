@@ -15,10 +15,6 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.UUID,
       allowNull: true
     },
-    type_id: {
-      type: DataTypes.UUID,
-      allowNull: true
-    },
     status_id: {
       type: DataTypes.UUID,
       allowNull: true

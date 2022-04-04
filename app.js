@@ -866,20 +866,24 @@ app.post('/api/tasks/getbyId', async (req, res) => {
   // });
   const [results, metadata] = await db.sequelize.query(`
     SELECT a.*,
-           b.id address_ID,
            b."position",
            b.address_from_gmap,
            b.address_from_user,
            C.first_name AS user_firstname,
-           d.first_name AS volunteer_firstname  
+           c.last_name AS user_lastname,
+           c.tel AS user_tel,
+           d.first_name AS volunteer_firstname,
+           d.last_name AS volunteer_lastname,
+           d.tel AS volunteer_tel
+
     FROM tasks a 
     JOIN address b on a.address_id = b.id
     JOIN users c on a.user_id = c.id
-    JOIN users d on a.volunteer_id = d.id
+    LEFT JOIN users d on a.volunteer_id = d.id
     WHERE a.id = '${id}'`)
   console.log('result from: ', results)
   return res.json({
-    result: results,
+    result: results[0],
     message: 'api complete'
   })
 });
