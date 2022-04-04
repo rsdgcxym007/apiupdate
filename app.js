@@ -127,7 +127,8 @@ app.post('/api/auth/login', async (req, res) => {
   const data = await db.users.findOne({
     where: {
       email,
-      password
+      password,
+      status: 'active'
     }
   });
 
@@ -154,6 +155,7 @@ app.post('/api/auth/login', async (req, res) => {
 
 app.post('/api/auth/register', async (req, res) => {
   const data = req.body;
+  data.status = 'active'
   if (!data.address_from_gmap || !data.position) {
     return res.json({
       result: false,
@@ -440,7 +442,6 @@ app.post('/api/manage/taskallbyuserid', async (req, res) => {
   // const results = await prisma.$queryRawUnsafe(`select * from vw_tasks a where a."user_id" = $1`, userId)
   const [results, metadata] = await db.sequelize.query(`select * from vw_tasks a where a."user_id" = '${userId}' ORDER BY created_at DESC `);
   const headers = [{
-<<<<<<< HEAD
       text: 'สถานะ',
       value: 'status_name'
     },
@@ -468,35 +469,6 @@ app.post('/api/manage/taskallbyuserid', async (req, res) => {
       text: 'วันที่สร้าง',
       value: 'created_at'
     },
-=======
-    text: 'สถานะ',
-    value: 'status_name'
-  },
-  // {
-  //   text: 'ระดับอาการ',
-  //   value: ''
-  // },
-  // {
-  //   text: 'ชื่อผู้ป่วย',
-  //   value: 'name'
-  // },
-  // {
-  //   text: 'เบอร์โทร',
-  //   value: 'tel'
-  // },
-  {
-    text: 'ที่อยู่',
-    value: 'address'
-  },
-  {
-    text: 'คำอธิบาย',
-    value: 'remark'
-  },
-  {
-    text: 'วันที่สร้าง',
-    value: 'created_at'
-  },
->>>>>>> d405a6b22c330adda3672b9e7d7979f5c392a3a4
 
   ];
   return res.json({
@@ -1127,7 +1099,6 @@ app.post('/api/admin/allvolunteen', async (req, res) => {
   // const results = await prisma.$queryRawUnsafe(`select * from vw_tasks a where a."user_id" = $1`, userId)
   const [results, metadata] = await db.sequelize.query(`select * from vw_tasks_allVa a where a."group_id" = '87191711-d7ff-4664-b648-8e9bceaab5ea'`);
   const headers = [{
-<<<<<<< HEAD
       text: 'สถานะ',
       value: 'groups_Id'
     },
@@ -1143,23 +1114,6 @@ app.post('/api/admin/allvolunteen', async (req, res) => {
       text: 'ที่อยู่',
       value: 'address'
     },
-=======
-    text: 'สถานะ',
-    value: 'groups_name'
-  },
-  {
-    text: 'ชื่อ',
-    value: 'name'
-  },
-  {
-    text: 'เบอร์โทร',
-    value: 'tel'
-  },
-  {
-    text: 'ที่อยู่',
-    value: 'address'
-  },
->>>>>>> d405a6b22c330adda3672b9e7d7979f5c392a3a4
   ];
   console.log('xddsad', results)
   return res.json({
@@ -1210,7 +1164,6 @@ app.post('/api/user/getAll', async (req, res) => {
   // if (data.group_id == '51b0e763-1f09-416a-afa9-d2f0ce78e9e6') {
   const [results, metadata] = await db.sequelize.query(`
     select a.first_name,
-<<<<<<< HEAD
            a.last_name ,
            a.email,
            a.tel,
@@ -1294,29 +1247,6 @@ app.post('/api/user/getAllVA', async (req, res) => {
       text: 'เบอร์โทร',
       value: 'tel'
     },
-=======
-    a.last_name,
-    a.email,
-    a.tel,
-    b.id address_id,
-      b.position,
-      b.address_from_gmap,
-      b.address_from_user
-    from users a join address b on a.current_address = b.id where a.group_id = '51b0e763-1f09-416a-afa9-d2f0ce78e9e6' `)
-  console.log('result is: ', results)
-  const headers = [{
-    text: 'สถานะ',
-    value: 'status'
-  },
-  {
-    text: 'ชื่อ',
-    value: 'first_name'
-  },
-  {
-    text: 'เบอร์โทร',
-    value: 'tel'
-  },
->>>>>>> d405a6b22c330adda3672b9e7d7979f5c392a3a4
   ];
   if (results == '') {
     return res.json({
@@ -1347,6 +1277,100 @@ app.post('/api/user/getAllVA', async (req, res) => {
   //     })
   //   }
   // }
+});
+
+app.post('/api/user/getAllv2', async (req, res) => {
+
+  // if (data.group_id == '51b0e763-1f09-416a-afa9-d2f0ce78e9e6') {
+  const [results, metadata] = await db.sequelize.query(`
+    select a.first_name,
+    a.last_name,
+    a.email,
+    a.tel,
+    a.id,
+    a.status,
+    a.group_id,
+    b.id address_id,
+      b.position,
+      b.address_from_gmap,
+      b.address_from_user
+    from users a join address b on a.current_address = b.id `)
+  console.log('result is: ', results)
+  const headers = [
+  {
+    text: 'ประเภท',
+    value: 'group_id'
+  },  
+  {
+    text: 'ชื่อ',
+    value: 'first_name'
+  },
+  {
+    text: 'เบอร์โทร',
+    value: 'tel'
+  },
+  {
+    text: 'อีเมล',
+    value: 'email'
+  },
+  {
+    text: 'สถานะ',
+    value: 'actions',
+    sortable: false
+  },
+  ];
+  if (results == '') {
+    return res.json({
+      message: 'Not Found Data'
+    })
+  } else {
+    return res.json({
+      result: results,
+      headers,
+      message: 'success'
+
+    })
+  }
+  // } else {
+  //   const results = await db.users.findOne({
+  //     where: {
+  //       id: data.id
+  //     }
+  //   });
+  //   if (results == '') {
+  //     return res.json({
+  //       message: 'Not Found Data'
+  //     })
+  //   } else {
+  //     return res.json({
+  //       result: results,
+  //       message: 'success'
+  //     })
+  //   }
+  // }
+});
+
+app.post('/api/admin/ban', async (req, res) => {
+  let data = req.body
+  console.log('status', data)
+  const task = await db.users.update({
+    status: data.status,
+  }, {
+    where: {
+      id: data.id
+    }
+  })
+  if (!task) {
+    return res.json({
+      result: false,
+      message: "request error"
+    })
+  }
+
+  return res.json({
+    result: true,
+    message: "update success"
+  })
 });
 
 app.listen(port, () => {
