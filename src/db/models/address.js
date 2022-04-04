@@ -11,16 +11,8 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.JSON,
       allowNull: true
     },
-    description: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
     user_id: {
       type: DataTypes.UUID,
-      allowNull: true
-    },
-    place: {
-      type: DataTypes.STRING(255),
       allowNull: true
     },
     address_from_gmap: {
