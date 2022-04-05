@@ -755,24 +755,24 @@ app.post('/api/manage/uploadImage', async (req, res) => {
   const {
     data
   } = req.body;
+  console.log('data from body: ', data)
+    const image = await db.uploadimages.create(data)
 
-  const image = await db.uploadimages.create(data)
+    await db.tasks.update({
+      img_id: image.id,
+      status_id: data.status_id,
 
-  await db.tasks.update({
-    img_id: image.id,
-    status_id: data.status_id,
-    remark: data.remark
-
-  }, {
-    where: {
-      id: data.task_id
-    }
-  })
+    }, {
+      where: {
+        id: data.task_id
+      }
+    })
 
   return res.json({
-    message: "success"
-  })
-})
+      result: true,
+      message: "success"
+    })
+});
 
 app.post('/api/tasks/getImage', async (req, res) => {
   let data = req.body
@@ -828,7 +828,7 @@ app.post('/api/manage/report', async (req, res) => {
 
 app.post('/api/task/update', async (req, res) => {
   let data = req.body
-
+  console.log('data from body',data)
   if (data.address_id) {
     console.log('update Address')
     const address = await db.address.update({
