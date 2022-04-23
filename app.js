@@ -423,6 +423,37 @@ app.post('/api/tasks/getbyId', async (req, res) => {
   })
 });
 
+app.post('/api/tasks/askForHelp', async (req, res) => {
+  //!! เพิ่ม vw ใน postgres SQL ด้วย !!
+  //   CREATE OR REPLACE VIEW public.vw_tasks_all_detail
+  //    AS SELECT a.id,
+  //     a.user_id,
+  //     concat(b.first_name, ' ', b.last_name) AS name,
+  //       b.tel,
+  //       d.name AS status_name,
+  //         d.color,
+  //         a.remark,
+  //         c."position",
+  //           c.address_from_gmap,
+  //           c.address_from_user,
+  //           to_char(timezone('Asia/Bangkok':: text, a.created_at), 'DD Mon YYYY HH24:MI:SS':: text) AS created_at
+  //    FROM tasks a
+  //      JOIN users b ON a.user_id = b.id
+  //      JOIN address c ON a.address_id = c.id
+  //      JOIN status d ON a.status_id = d.id
+  //   ORDER BY a.created_at DESC;
+
+  const [results, metadata] = await db.sequelize.query(`select * from vw_tasks_all_detail a where a.status_name = 'ขอความช่วยเหลือ' `);
+  if (!results) {
+    return res.json({
+      message: 'Not Found Data'
+    })
+  }
+  return res.json({
+    result: results
+  })
+});
+
 app.post('/api/task/update', async (req, res) => {
   let data = req.body
   console.log('data from body', data)
@@ -926,6 +957,25 @@ app.post('/api/volunteen/takecareuser', async (req, res) => {
   return res.json({
     result: results,
     headers
+  })
+});
+
+app.post('/api/Address/getAddress', async (req, res) => {
+
+  // const data = req.body;
+  // console.log('data in ID', data)
+  const results = await db.address.findAll();
+  console.log('position from results', results[0].position)
+
+  const positions = results.position
+  // const result = await db.address.findOne({
+  //   where: {
+  //     id: data.id
+  //   }
+  // });
+  console.log('result = ', positions)
+  return res.json({
+    result: results
   })
 });
 
