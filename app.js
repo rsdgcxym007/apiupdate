@@ -423,8 +423,8 @@ app.post('/api/tasks/getbyId', async (req, res) => {
   })
 });
 
-app.post('/api/tasks/askForHelp', async (req, res) => {
-  //!! เพิ่ม vw ใน postgres SQL ด้วย !!
+app.post('/api/tasks/getAskForHelp', async (req, res) => {
+  // เพิ่ม vw ใน postgres SQL ด้วย !!
   //   CREATE OR REPLACE VIEW public.vw_tasks_all_detail
   //    AS SELECT a.id,
   //     a.user_id,
@@ -448,10 +448,40 @@ app.post('/api/tasks/askForHelp', async (req, res) => {
     return res.json({
       message: 'Not Found Data'
     })
+  } else {
+    const headers = [{
+      text: 'วันที่สร้าง',
+      value: 'created_at'
+    },
+    {
+      text: 'สถานะ',
+      value: 'status_name'
+    }, {
+      text: 'ประเภท',
+      value: 'type'
+    },
+    {
+      text: 'ชื่อผู้ป่วย',
+      value: 'name'
+    },
+    {
+      text: 'เบอร์โทร',
+      value: 'tel'
+    },
+    {
+      text: 'ที่อยู่',
+      value: 'address_from_gmap'
+    },
+    {
+      text: 'คำอธิบาย',
+      value: 'remark'
+    },
+    ];
+    return res.json({
+      result: results,
+      headers
+    })
   }
-  return res.json({
-    result: results
-  })
 });
 
 app.post('/api/task/update', async (req, res) => {
