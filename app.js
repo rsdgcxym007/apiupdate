@@ -273,29 +273,29 @@ app.post('/api/manage/report', async (req, res) => {
   // const results = await prisma.$queryRawUnsafe(`select * from vw_tasks a where a."user_id" = $1`, userId)
   const [results, metadata] = await db.sequelize.query(`select * from vw_tasks a where a.status_name = 'หายป่วยแล้ว' `);
   const headers = [{
-      text: 'สถานะ',
-      value: 'status_name'
-    },
-    // {
-    //   text: 'ระดับอาการ',
-    //   value: 'level_name'
-    // },
-    {
-      text: 'ชื่อผู้ป่วย',
-      value: 'name'
-    },
-    {
-      text: 'เบอร์โทร',
-      value: 'tel'
-    },
-    {
-      text: 'ที่อยู่',
-      value: 'address'
-    },
-    {
-      text: 'คำอธิบาย',
-      value: 'remark'
-    },
+    text: 'สถานะ',
+    value: 'status_name'
+  },
+  // {
+  //   text: 'ระดับอาการ',
+  //   value: 'level_name'
+  // },
+  {
+    text: 'ชื่อผู้ป่วย',
+    value: 'name'
+  },
+  {
+    text: 'เบอร์โทร',
+    value: 'tel'
+  },
+  {
+    text: 'ที่อยู่',
+    value: 'address'
+  },
+  {
+    text: 'คำอธิบาย',
+    value: 'remark'
+  },
 
   ];
   return res.json({
@@ -368,21 +368,21 @@ app.post('/api/tasks/getAllByUserId', async (req, res) => {
     ORDER BY a.created_at DESC`)
 
   const headers = [{
-      text: 'สถานะ',
-      value: 'status_name'
-    },
-    {
-      text: 'ที่อยู่',
-      value: 'address'
-    },
-    {
-      text: 'คำอธิบาย',
-      value: 'remark'
-    },
-    {
-      text: 'วันที่สร้าง',
-      value: 'created_at'
-    },
+    text: 'สถานะ',
+    value: 'status_name'
+  },
+  {
+    text: 'ที่อยู่',
+    value: 'address'
+  },
+  {
+    text: 'คำอธิบาย',
+    value: 'remark'
+  },
+  {
+    text: 'วันที่สร้าง',
+    value: 'created_at'
+  },
   ]
 
   return res.json({
@@ -454,32 +454,32 @@ app.post('/api/tasks/getAskForHelp', async (req, res) => {
     })
   } else {
     const headers = [{
-        text: 'วันที่สร้าง',
-        value: 'created_at'
-      },
-      {
-        text: 'สถานะ',
-        value: 'status_name'
-      }, {
-        text: 'ประเภท',
-        value: 'type'
-      },
-      {
-        text: 'ชื่อผู้ป่วย',
-        value: 'name'
-      },
-      {
-        text: 'เบอร์โทร',
-        value: 'tel'
-      },
-      {
-        text: 'ที่อยู่',
-        value: 'address_from_gmap'
-      },
-      {
-        text: 'คำอธิบาย',
-        value: 'remark'
-      },
+      text: 'วันที่สร้าง',
+      value: 'created_at'
+    },
+    {
+      text: 'สถานะ',
+      value: 'status_name'
+    }, {
+      text: 'ประเภท',
+      value: 'type'
+    },
+    {
+      text: 'ชื่อผู้ป่วย',
+      value: 'name'
+    },
+    {
+      text: 'เบอร์โทร',
+      value: 'tel'
+    },
+    {
+      text: 'ที่อยู่',
+      value: 'address_from_gmap'
+    },
+    {
+      text: 'คำอธิบาย',
+      value: 'remark'
+    },
     ];
     return res.json({
       result: results,
@@ -800,26 +800,26 @@ app.post('/api/user/getAllv2', async (req, res) => {
     from users a join address b on a.current_address = b.id `)
   console.log('result is: ', results)
   const headers = [{
-      text: 'ประเภท',
-      value: 'group_id'
-    },
-    {
-      text: 'ชื่อ',
-      value: 'first_name'
-    },
-    {
-      text: 'เบอร์โทร',
-      value: 'tel'
-    },
-    {
-      text: 'อีเมล',
-      value: 'email'
-    },
-    {
-      text: 'สถานะ',
-      value: 'actions',
-      sortable: false
-    },
+    text: 'ประเภท',
+    value: 'group_id'
+  },
+  {
+    text: 'ชื่อ',
+    value: 'first_name'
+  },
+  {
+    text: 'เบอร์โทร',
+    value: 'tel'
+  },
+  {
+    text: 'อีเมล',
+    value: 'email'
+  },
+  {
+    text: 'สถานะ',
+    value: 'actions',
+    sortable: false
+  },
   ];
   if (results == '') {
     return res.json({
@@ -917,32 +917,32 @@ app.post('/api/volunteen/taskallhelp', async (req, res) => {
   // const results = await prisma.$queryRawUnsafe(`select * from vw_tasks a where a."user_id" = $1`, userId)
   const [results, metadata] = await db.sequelize.query(`select * from vw_tasks a where a.status_name = 'ขอความช่วยเหลือ' `);
   const headers = [{
-      text: 'วันที่สร้าง',
-      value: 'created_at'
-    },
-    {
-      text: 'สถานะ',
-      value: 'status_name'
-    }, {
-      text: 'ประเภท',
-      value: 'type'
-    },
-    {
-      text: 'ชื่อผู้ป่วย',
-      value: 'name'
-    },
-    {
-      text: 'เบอร์โทร',
-      value: 'tel'
-    },
-    {
-      text: 'ที่อยู่',
-      value: 'address'
-    },
-    {
-      text: 'คำอธิบาย',
-      value: 'remark'
-    },
+    text: 'วันที่สร้าง',
+    value: 'created_at'
+  },
+  {
+    text: 'สถานะ',
+    value: 'status_name'
+  }, {
+    text: 'ประเภท',
+    value: 'type'
+  },
+  {
+    text: 'ชื่อผู้ป่วย',
+    value: 'name'
+  },
+  {
+    text: 'เบอร์โทร',
+    value: 'tel'
+  },
+  {
+    text: 'ที่อยู่',
+    value: 'address'
+  },
+  {
+    text: 'คำอธิบาย',
+    value: 'remark'
+  },
 
     // {
     //   text: 'Actions',
@@ -969,29 +969,29 @@ app.post('/api/volunteen/takecareuser', async (req, res) => {
   select * from vw_tasks_volunteer a where a."volunteer_id" = '${userId}' 
   and (a.status_name = 'ช่วยเหลือเสร็จสิ้น' or a.status_name = 'กำลังช่วยเหลือ' or a.status_name = 'ยกเลิก' or a.status_name = 'หายป่วยแล้ว' or a.status_name = 'ดำเนินการเสร็จสิ้น')`);
   const headers = [{
-      text: 'สถานะ',
-      value: 'status_name'
-    },
-    {
-      text: 'ระดับอาการ',
-      value: 'level'
-    },
-    {
-      text: 'ชื่อผู้ป่วย',
-      value: 'name'
-    },
-    {
-      text: 'เบอร์โทร',
-      value: 'tel'
-    },
-    {
-      text: 'ที่อยู่',
-      value: 'address'
-    },
-    {
-      text: 'คำอธิบาย',
-      value: 'remark'
-    },
+    text: 'สถานะ',
+    value: 'status_name'
+  },
+  {
+    text: 'ระดับอาการ',
+    value: 'level'
+  },
+  {
+    text: 'ชื่อผู้ป่วย',
+    value: 'name'
+  },
+  {
+    text: 'เบอร์โทร',
+    value: 'tel'
+  },
+  {
+    text: 'ที่อยู่',
+    value: 'address'
+  },
+  {
+    text: 'คำอธิบาย',
+    value: 'remark'
+  },
 
   ];
   return res.json({
@@ -1051,29 +1051,29 @@ app.post('/api/admin/alluser', async (req, res) => {
   // const results = await prisma.$queryRawUnsafe(`select * from vw_tasks a where a."user_id" = $1`, userId)
   const [results, metadata] = await db.sequelize.query(`select * from vw_tasks_allUsers c where c."group_id" = '51b0e763-1f09-416a-afa9-d2f0ce78e9e6'`);
   const headers = [{
-      text: 'id',
-      value: 'id'
-    },
-    {
-      text: 'สถานะ',
-      value: 'status_name'
-    },
-    {
-      text: 'ชื่อ',
-      value: 'name'
-    },
-    {
-      text: 'เบอร์โทร',
-      value: 'tel'
-    },
-    // {
-    //   text: 'ที่อยู่',
-    //   value: 'address'
-    // },
-    {
-      text: 'วันที่สร้าง',
-      value: 'created_at'
-    },
+    text: 'id',
+    value: 'id'
+  },
+  {
+    text: 'สถานะ',
+    value: 'status_name'
+  },
+  {
+    text: 'ชื่อ',
+    value: 'name'
+  },
+  {
+    text: 'เบอร์โทร',
+    value: 'tel'
+  },
+  // {
+  //   text: 'ที่อยู่',
+  //   value: 'address'
+  // },
+  {
+    text: 'วันที่สร้าง',
+    value: 'created_at'
+  },
 
   ];
   console.log('xddsad', results)
@@ -1092,21 +1092,21 @@ app.post('/api/admin/allvolunteen', async (req, res) => {
   // const results = await prisma.$queryRawUnsafe(`select * from vw_tasks a where a."user_id" = $1`, userId)
   const [results, metadata] = await db.sequelize.query(`select * from vw_tasks_allVa a where a."group_id" = '87191711-d7ff-4664-b648-8e9bceaab5ea'`);
   const headers = [{
-      text: 'สถานะ',
-      value: 'groups_Id'
-    },
-    {
-      text: 'ชื่อ',
-      value: 'name'
-    },
-    {
-      text: 'เบอร์โทร',
-      value: 'tel'
-    },
-    {
-      text: 'ที่อยู่',
-      value: 'address'
-    },
+    text: 'สถานะ',
+    value: 'groups_Id'
+  },
+  {
+    text: 'ชื่อ',
+    value: 'name'
+  },
+  {
+    text: 'เบอร์โทร',
+    value: 'tel'
+  },
+  {
+    text: 'ที่อยู่',
+    value: 'address'
+  },
   ];
   console.log('xddsad', results)
   return res.json({
@@ -1334,6 +1334,46 @@ app.post('/api/admin/allvolunteen', async (req, res) => {
 //     message: "update success"
 //   })
 // })
+
+
+app.post('/api/tasks/countByDay', async (req, res) => {
+
+  // const [results, metadata] = await db.sequelize.query(`
+  // select DATE_TRUNC ('day', created_at) AS date_Request, COUNT(created_at) AS total_Case 
+  // FROM tasks 
+  // GROUP BY DATE_TRUNC('day', created_at) 
+  // order by Date_Request;`)
+
+  const [results, metadata] = await db.sequelize.query(`
+  SELECT DATE(created_at) date_request , count(created_at) total_case
+  FROM tasks
+  GROUP BY date_request
+  ORDER BY date_request ;`)
+
+  const headers = [{
+    text: 'สถานะ',
+    value: 'status_name'
+  },
+  {
+    text: 'ที่อยู่',
+    value: 'address'
+  },
+  {
+    text: 'คำอธิบาย',
+    value: 'remark'
+  },
+  {
+    text: 'วันที่สร้าง',
+    value: 'created_at'
+  },
+  ]
+
+  return res.json({
+    result: results,
+    headers,
+    message: 'get success'
+  })
+});
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)

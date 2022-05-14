@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   return sequelize.define('tasks', {
     id: {
       type: DataTypes.UUID,
@@ -58,7 +58,11 @@ module.exports = function(sequelize, DataTypes) {
     volunteer_id: {
       type: DataTypes.UUID,
       allowNull: true
-    }
+    },
+    form: {
+      type: DataTypes.JSON,
+      allowNull: true
+    },
   }, {
     sequelize,
     tableName: 'tasks',
