@@ -47,6 +47,8 @@ CREATE TABLE public.tasks (
 	requirement json NULL,
 	treatment_location varchar(255) NULL,
 	form json NULL,
+	help_detail json NULL,
+	is_care_until_end bool NULL DEFAULT false,
 	CONSTRAINT tasks_pkey PRIMARY KEY (id),
 	CONSTRAINT tasks_fk FOREIGN KEY (user_id) REFERENCES public.users(id)
 );

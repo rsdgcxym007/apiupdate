@@ -592,7 +592,9 @@ app.post('/api/task/update', async (req, res) => {
     level: data.level,
     volunteer_id: data.volunteer_id,
     congenital_disease: data.congenital_disease,
-    treatment_location: data.treatment_location
+    treatment_location: data.treatment_location,
+    help_detail: data.help_detail,
+    is_care_until_end: data.is_care_until_end
   }, {
     where: {
       id: data.id

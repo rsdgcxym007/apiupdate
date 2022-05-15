@@ -63,6 +63,15 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.JSON,
       allowNull: true
     },
+    help_detail: {
+      type: DataTypes.JSON,
+      allowNull: true
+    },
+    is_care_until_end: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+      defaultValue: false
+    },
   }, {
     sequelize,
     tableName: 'tasks',
