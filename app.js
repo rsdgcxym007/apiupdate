@@ -413,12 +413,17 @@ app.post('/api/tasks/getbyId', async (req, res) => {
            c.tel AS user_tel,
            d.first_name AS volunteer_firstname,
            d.last_name AS volunteer_lastname,
-           d.tel AS volunteer_tel
+           d.tel AS volunteer_tel,
+           e.day_of_visit,
+           e.hospital,
+           e.image_rtpcr,
+           e.image_medical
 
     FROM tasks a 
     JOIN address b on a.address_id = b.id
     JOIN users c on a.user_id = c.id
     LEFT JOIN users d on a.volunteer_id = d.id
+    LEFT JOIN uploadimages e on a.img_id = e.id
     WHERE a.id = '${id}'`)
   console.log('result from: ', results)
   return res.json({
