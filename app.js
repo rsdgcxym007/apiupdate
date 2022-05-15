@@ -571,7 +571,6 @@ app.post('/api/users/getByUserId', async (req, res) => {
 
   const data = req.body;
   console.log('data from body', data)
-
   if (data.group_id == '51b0e763-1f09-416a-afa9-d2f0ce78e9e6' || data.group_id == '87191711-d7ff-4664-b648-8e9bceaab5ea' || data.group_id == '4e095238-1b60-4303-a207-8927d9c992d5') {
     const [results, metadata] = await db.sequelize.query(`
     select a.first_name,
@@ -579,9 +578,9 @@ app.post('/api/users/getByUserId', async (req, res) => {
     a.email,
     a.tel,
     b.id address_id,
-      b.position,
-      b.address_from_gmap,
-      b.address_from_user
+    b.position,
+    b.address_from_gmap,
+    b.address_from_user
     from users a join address b on a.current_address = b.id
     where a.id = '${data.id}' `)
     console.log('result is: ', results)
@@ -746,10 +745,14 @@ app.post('/api/user/getAllVA', async (req, res) => {
       value: 'tel'
     },
     {
-      text: 'Actions',
-      value: 'actions',
-      sortable: false
+      text: 'เบอร์โทร',
+      value: 'address_from_gmap'
     },
+    {
+      text: 'เบอร์โทร',
+      value: 'address_from_user'
+    },
+
   ];
   if (results == '') {
     return res.json({
