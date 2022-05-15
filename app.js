@@ -371,21 +371,25 @@ app.post('/api/tasks/getAllByUserId', async (req, res) => {
     ORDER BY a.created_at DESC`)
 
   const headers = [{
-      text: 'สถานะ',
-      value: 'status_name'
-    },
-    {
-      text: 'ที่อยู่',
-      value: 'address'
-    },
-    {
-      text: 'คำอธิบาย',
-      value: 'remark'
-    },
-    {
-      text: 'วันที่สร้าง',
-      value: 'created_at'
-    },
+    text: 'สถานะ',
+    value: 'status_name'
+  },
+  {
+    text: 'ที่อยู่',
+    value: 'address'
+  },
+  {
+    text: 'คำอธิบาย',
+    value: 'remark'
+  },
+  {
+    text: 'หมายเหตุ',
+    value: 'warning'
+  },
+  {
+    text: 'วันที่สร้าง',
+    value: 'created_at'
+  },
   ]
 
   return res.json({
