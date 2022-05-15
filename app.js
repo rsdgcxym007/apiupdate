@@ -500,12 +500,15 @@ app.post('/api/tasks/getAskForHelp', async (req, res) => {
 
 app.post('/api/volunteen/takecareuser', async (req, res) => {
   const {
-    userId
+    userId, statusName
   } = req.body
+  var queryStatus = "a.status_name = 'ช่วยเหลือเสร็จสิ้น' or a.status_name = 'กำลังช่วยเหลือ' or a.status_name = 'ยกเลิก' or a.status_name = 'หายป่วยแล้ว'"
+  if (statusName) {
+    queryStatus = `a.status_name = '${statusName}'`
+  }
   // const results = await prisma.$queryRawUnsafe(`select * from vw_tasks a where a."user_id" = $1`, userId)
   const [results, metadata] = await db.sequelize.query(`
-  select * from vw_tasks_volunteer a where a."volunteer_id" = '${userId}' 
-  and (a.status_name = 'ช่วยเหลือเสร็จสิ้น' or a.status_name = 'กำลังช่วยเหลือ' or a.status_name = 'ยกเลิก' or a.status_name = 'หายป่วยแล้ว' )`);
+  select * from vw_tasks_volunteer a where a."volunteer_id" = '${userId}' and (${queryStatus})`);
   const headers = [{
     text: 'สถานะ',
     value: 'status_name'
@@ -534,7 +537,8 @@ app.post('/api/volunteen/takecareuser', async (req, res) => {
   ];
   return res.json({
     result: results,
-    headers
+    headers,
+    length: results.length
   })
 });
 
@@ -1009,46 +1013,6 @@ app.post('/api/volunteen/taskallhelp', async (req, res) => {
     //   text: 'ช่วยเหลือ',
     //   value: 'help'
     // },
-  ];
-  return res.json({
-    result: results,
-    headers
-  })
-});
-
-app.post('/api/volunteen/takecareuser', async (req, res) => {
-  const {
-    userId
-  } = req.body
-  // const results = await prisma.$queryRawUnsafe(`select * from vw_tasks a where a."user_id" = $1`, userId)
-  const [results, metadata] = await db.sequelize.query(`
-  select * from vw_tasks_volunteer a where a."volunteer_id" = '${userId}' 
-  and (a.status_name = 'ช่วยเหลือเสร็จสิ้น' or a.status_name = 'กำลังช่วยเหลือ' or a.status_name = 'ยกเลิก' or a.status_name = 'หายป่วยแล้ว' or a.status_name = 'ดำเนินการเสร็จสิ้น')`);
-  const headers = [{
-    text: 'สถานะ',
-    value: 'status_name'
-  },
-  {
-    text: 'ระดับอาการ',
-    value: 'level'
-  },
-  {
-    text: 'ชื่อผู้ป่วย',
-    value: 'name'
-  },
-  {
-    text: 'เบอร์โทร',
-    value: 'tel'
-  },
-  {
-    text: 'ที่อยู่',
-    value: 'address'
-  },
-  {
-    text: 'คำอธิบาย',
-    value: 'remark'
-  },
-
   ];
   return res.json({
     result: results,
