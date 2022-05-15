@@ -491,6 +491,70 @@ app.post('/api/tasks/getAskForHelp', async (req, res) => {
       headers
     })
   }
+
+});
+
+
+app.post('/api/volunteen/takecareuser', async (req, res) => {
+  const {
+    userId
+  } = req.body
+  // const results = await prisma.$queryRawUnsafe(`select * from vw_tasks a where a."user_id" = $1`, userId)
+  const [results, metadata] = await db.sequelize.query(`
+  select * from vw_tasks_volunteer a where a."volunteer_id" = '${userId}' 
+  and (a.status_name = 'ช่วยเหลือเสร็จสิ้น' or a.status_name = 'กำลังช่วยเหลือ' or a.status_name = 'ยกเลิก' or a.status_name = 'หายป่วยแล้ว' )`);
+  const headers = [{
+    text: 'สถานะ',
+    value: 'status_name'
+  },
+  {
+    text: 'ระดับอาการ',
+    value: 'level_name'
+  },
+  {
+    text: 'ชื่อผู้ป่วย',
+    value: 'name'
+  },
+  {
+    text: 'เบอร์โทร',
+    value: 'tel'
+  },
+  {
+    text: 'ที่อยู่',
+    value: 'address'
+  },
+  {
+    text: 'คำอธิบาย',
+    value: 'remark'
+  },
+
+  ];
+  return res.json({
+    result: results,
+    headers
+  })
+});
+
+app.post('/api/volunteen/getbyuser', async (req, res) => {
+
+  const {
+    user_id
+  } = req.body;
+
+  const result = await db.tasks.findAll({
+    where: {
+      user_id
+    }
+  });
+
+  const items = result.map(function (item) {
+    return item['remark'];
+  });
+
+  return res.json({
+    result: items,
+    // headers
+  })
 });
 
 app.post('/api/task/update', async (req, res) => {
