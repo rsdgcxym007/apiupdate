@@ -789,7 +789,6 @@ app.post('/api/user/getAll', async (req, res) => {
 });
 
 app.post('/api/user/getAllVA', async (req, res) => {
-
   // if (data.group_id == '51b0e763-1f09-416a-afa9-d2f0ce78e9e6') {
   const [results, metadata] = await db.sequelize.query(`
     select a.first_name,
@@ -857,9 +856,12 @@ app.post('/api/user/getAllVA', async (req, res) => {
   // }
 });
 
-app.post('/api/user/getAllv2', async (req, res) => {
-
+app.post('/api/user/getAllById', async (req, res) => {
+  const {
+    id
+  } = req.body
   // if (data.group_id == '51b0e763-1f09-416a-afa9-d2f0ce78e9e6') {
+    console.log('req.body',id)
   const [results, metadata] = await db.sequelize.query(`
     select a.first_name,
     a.last_name,
@@ -872,38 +874,16 @@ app.post('/api/user/getAllv2', async (req, res) => {
       b.position,
       b.address_from_gmap,
       b.address_from_user
-    from users a join address b on a.current_address = b.id `)
-  console.log('result is: ', results)
-  const headers = [{
-    text: 'ประเภท',
-    value: 'group_id'
-  },
-  {
-    text: 'ชื่อ',
-    value: 'first_name'
-  },
-  {
-    text: 'เบอร์โทร',
-    value: 'tel'
-  },
-  {
-    text: 'อีเมล',
-    value: 'email'
-  },
-  {
-    text: 'สถานะ',
-    value: 'actions',
-    sortable: false
-  },
-  ];
+    from users a join address b on a.current_address = b.id where a.id = '${id}' `)
+  console.log('result is: ', results) 
+
   if (results == '') {
     return res.json({
       message: 'Not Found Data'
     })
   } else {
     return res.json({
-      result: results,
-      headers,
+      result: results[0],
       message: 'success'
 
     })
@@ -926,6 +906,7 @@ app.post('/api/user/getAllv2', async (req, res) => {
   //   }
   // }
 });
+
 
 app.post('/api/upload', fileUpload.single('file'), async (req, res) => {
   //ไม่ได้ใช้แล้ว
