@@ -309,6 +309,9 @@ app.post('/api/tasks/create', async (req, res) => {
     data
   } = req.body;
   console.log('data from body', data)
+  if (data.congenital_disease == "") {
+    data.congenital_disease = "ไม่มี"
+  }
   const address = await db.address.create(data)
   if (!address) {
     return res.json({
