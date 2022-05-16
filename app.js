@@ -375,25 +375,25 @@ app.post('/api/tasks/getAllByUserId', async (req, res) => {
     ORDER BY a.created_at DESC`)
 
   const headers = [{
-    text: 'สถานะ',
-    value: 'status_name'
-  },
-  {
-    text: 'ที่อยู่',
-    value: 'address'
-  },
-  {
-    text: 'คำอธิบาย',
-    value: 'remark'
-  },
-  {
-    text: 'หมายเหตุ',
-    value: 'warning'
-  },
-  {
-    text: 'วันที่สร้าง',
-    value: 'created_at'
-  },
+      text: 'สถานะ',
+      value: 'status_name'
+    },
+    {
+      text: 'ที่อยู่',
+      value: 'address'
+    },
+    {
+      text: 'คำอธิบาย',
+      value: 'remark'
+    },
+    {
+      text: 'หมายเหตุ',
+      value: 'warning'
+    },
+    {
+      text: 'วันที่สร้าง',
+      value: 'created_at'
+    },
   ]
 
   return res.json({
@@ -470,32 +470,32 @@ app.post('/api/tasks/getAskForHelp', async (req, res) => {
     })
   } else {
     const headers = [{
-      text: 'วันที่สร้าง',
-      value: 'created_at'
-    },
-    {
-      text: 'สถานะ',
-      value: 'status_name'
-    }, {
-      text: 'ประเภท',
-      value: 'type'
-    },
-    {
-      text: 'ชื่อผู้ป่วย',
-      value: 'name'
-    },
-    {
-      text: 'เบอร์โทร',
-      value: 'tel'
-    },
-    {
-      text: 'ที่อยู่',
-      value: 'address_from_gmap'
-    },
-    {
-      text: 'คำอธิบาย',
-      value: 'remark'
-    },
+        text: 'วันที่สร้าง',
+        value: 'created_at'
+      },
+      {
+        text: 'สถานะ',
+        value: 'status_name'
+      }, {
+        text: 'ประเภท',
+        value: 'requirement'
+      },
+      {
+        text: 'ชื่อผู้ป่วย',
+        value: 'name'
+      },
+      {
+        text: 'เบอร์โทร',
+        value: 'tel'
+      },
+      {
+        text: 'ที่อยู่',
+        value: 'address_from_gmap'
+      },
+      {
+        text: 'คำอธิบาย',
+        value: 'remark'
+      },
     ];
     return res.json({
       result: results,
@@ -524,7 +524,7 @@ app.post('/api/volunteen/takecareuser', async (req, res) => {
   },
   {
     text: 'ระดับอาการ',
-    value: 'level_name'
+    value: 'level'
   },
   {
     text: 'ชื่อผู้ป่วย',
@@ -889,26 +889,26 @@ app.post('/api/user/getAllv2', async (req, res) => {
     from users a join address b on a.current_address = b.id `)
   console.log('result is: ', results)
   const headers = [{
-    text: 'ประเภท',
-    value: 'group_id'
-  },
-  {
-    text: 'ชื่อ',
-    value: 'first_name'
-  },
-  {
-    text: 'เบอร์โทร',
-    value: 'tel'
-  },
-  {
-    text: 'อีเมล',
-    value: 'email'
-  },
-  {
-    text: 'สถานะ',
-    value: 'actions',
-    sortable: false
-  },
+      text: 'ประเภท',
+      value: 'group_id'
+    },
+    {
+      text: 'ชื่อ',
+      value: 'first_name'
+    },
+    {
+      text: 'เบอร์โทร',
+      value: 'tel'
+    },
+    {
+      text: 'อีเมล',
+      value: 'email'
+    },
+    {
+      text: 'สถานะ',
+      value: 'actions',
+      sortable: false
+    },
   ];
   if (results == '') {
     return res.json({
