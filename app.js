@@ -350,9 +350,9 @@ app.post('/api/tasks/getAllByUserId', async (req, res) => {
     userId, statusName
   } = req.body;
 
-  var queryStatus = "c.name = 'ช่วยเหลือเสร็จสิ้น' or c.name = 'กำลังช่วยเหลือ' or c.name = 'ยกเลิก' or c.name = 'หายป่วยแล้ว'"
+  var queryStatus = "c.name = 'ขอความช่วยเหลือ' or c.name = 'ช่วยเหลือเสร็จสิ้น' or c.name = 'กำลังช่วยเหลือ' or c.name = 'ยกเลิก' or c.name = 'หายป่วยแล้ว'"
   if (statusName) {
-    queryStatus = `a.status_name = '${statusName}'`
+    queryStatus = `c.name = '${statusName}'`
   }
   const [results, metadata] = await db.sequelize.query(`
     SELECT c.name AS status_name,
