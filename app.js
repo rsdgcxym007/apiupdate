@@ -748,10 +748,10 @@ app.post('/api/user/getAll', async (req, res) => {
 
   // if (data.group_id == '51b0e763-1f09-416a-afa9-d2f0ce78e9e6') {
   const [results, metadata] = await db.sequelize.query(`
-    select a.first_name,
-           a.last_name ,
+    select concat(a.first_name , ' ', a.last_name) AS name ,
            a.email,
            a.tel,
+           a.status,
            b.id address_id,
            a.id,
            b.position,
@@ -764,12 +764,8 @@ app.post('/api/user/getAll', async (req, res) => {
       value: 'id'
     },
     {
-      text: 'ชื่อ',
-      value: 'first_name'
-    },
-    {
-      text: 'นามสกุล',
-      value: 'last_name'
+      text: 'ชื่อจริง-นามกสุล',
+      value: 'name'
     },
     {
       text: 'เบอร์โทร',
@@ -778,6 +774,16 @@ app.post('/api/user/getAll', async (req, res) => {
     {
       text: 'ที่อยู่จากMap',
       value: 'address_from_gmap'
+    },
+    {
+      text: 'สถานะ',
+      value: 'actions',
+      sortable: false
+    },
+    {
+      text: 'ดูข้อมูล',
+      value: 'actions1',
+      sortable: false
     },
   ];
   if (results == '') {
@@ -814,10 +820,10 @@ app.post('/api/user/getAll', async (req, res) => {
 app.post('/api/user/getAllVA', async (req, res) => {
   // if (data.group_id == '51b0e763-1f09-416a-afa9-d2f0ce78e9e6') {
   const [results, metadata] = await db.sequelize.query(`
-    select a.first_name,
-           a.last_name ,
+    select concat(a.first_name , ' ', a.last_name) AS name ,
            a.email,
            a.tel,
+           a.status,
            b.id address_id,
            a.id,
            b.position,
@@ -830,12 +836,8 @@ app.post('/api/user/getAllVA', async (req, res) => {
       value: 'id'
     },
     {
-      text: 'ชื่อ',
-      value: 'first_name'
-    },
-    {
-      text: 'นามสกุล',
-      value: 'last_name'
+      text: 'ชื่อจริง-นามสกุล',
+      value: 'name'
     },
     {
       text: 'เบอร์โทร',
@@ -844,6 +846,16 @@ app.post('/api/user/getAllVA', async (req, res) => {
     {
       text: 'ที่อยู่จากMap',
       value: 'address_from_gmap'
+    },
+    {
+      text: 'สถานะ',
+      value: 'actions',
+      sortable: false
+    },
+    {
+      text: 'ดูข้อมูล',
+      value: 'actions1',
+      sortable: false
     },
   ];
   if (results == '') {
