@@ -1461,6 +1461,12 @@ app.post('/api/admin/allvolunteen', async (req, res) => {
 
 app.post('/api/tasks/countByDay', async (req, res) => {
 
+  // const [results, metadata] = await db.sequelize.query(`
+  // select DATE_TRUNC ('day', created_at) AS date_Request, COUNT(created_at) AS total_Case 
+  // FROM tasks 
+  // GROUP BY DATE_TRUNC('day', created_at) 
+  // order by Date_Request;`)
+
   const [results, metadata] = await db.sequelize.query(`
   SELECT DATE(created_at) date_request , count(created_at) total_case
   FROM tasks
