@@ -347,7 +347,8 @@ app.post('/api/tasks/create', async (req, res) => {
 
 app.post('/api/tasks/getAllByUserId', async (req, res) => {
   const {
-    userId, statusName
+    userId,
+    statusName
   } = req.body;
 
   var queryStatus = "c.name = 'ขอความช่วยเหลือ' or c.name = 'ช่วยเหลือเสร็จสิ้น' or c.name = 'กำลังช่วยเหลือ' or c.name = 'ยกเลิก' or c.name = 'หายป่วยแล้ว'"
@@ -747,10 +748,10 @@ app.post('/api/user/getAll', async (req, res) => {
 
   // if (data.group_id == '51b0e763-1f09-416a-afa9-d2f0ce78e9e6') {
   const [results, metadata] = await db.sequelize.query(`
-    select a.first_name,
-           a.last_name ,
+    select concat(a.first_name , ' ', a.last_name) AS name ,
            a.email,
            a.tel,
+           a.status,
            b.id address_id,
            a.id,
            b.position,
@@ -758,19 +759,32 @@ app.post('/api/user/getAll', async (req, res) => {
            b.address_from_user
     from users a join address b on a.current_address = b.id where a.group_id = '51b0e763-1f09-416a-afa9-d2f0ce78e9e6' `)
   console.log('result is: ', results)
-  const headers = [
-    // {
-    //     text: 'สถานะ',
-    //     value: 'id'
-    //   },
-    {
-      text: 'ชื่อ',
-      value: 'first_name'
-    },
-    {
-      text: 'เบอร์โทร',
-      value: 'tel'
-    },
+  const headers = [{
+    text: 'Id',
+    value: 'id'
+  },
+  {
+    text: 'ชื่อจริง-นามกสุล',
+    value: 'name'
+  },
+  {
+    text: 'เบอร์โทร',
+    value: 'tel'
+  },
+  {
+    text: 'ที่อยู่จากMap',
+    value: 'address_from_gmap'
+  },
+  {
+    text: 'สถานะ',
+    value: 'actions',
+    sortable: false
+  },
+  {
+    text: 'ดูข้อมูล',
+    value: 'actions1',
+    sortable: false
+  },
   ];
   if (results == '') {
     return res.json({
@@ -806,10 +820,10 @@ app.post('/api/user/getAll', async (req, res) => {
 app.post('/api/user/getAllVA', async (req, res) => {
   // if (data.group_id == '51b0e763-1f09-416a-afa9-d2f0ce78e9e6') {
   const [results, metadata] = await db.sequelize.query(`
-    select a.first_name,
-           a.last_name ,
+    select concat(a.first_name , ' ', a.last_name) AS name ,
            a.email,
            a.tel,
+           a.status,
            b.id address_id,
            a.id,
            b.position,
@@ -817,28 +831,32 @@ app.post('/api/user/getAllVA', async (req, res) => {
            b.address_from_user
     from users a join address b on a.current_address = b.id where a.group_id = '87191711-d7ff-4664-b648-8e9bceaab5ea' `)
   console.log('result is: ', results)
-  const headers = [
-    // {
-    //   text: 'สถานะ',
-    //   value: 'id'
-    // },
-    {
-      text: 'ชื่อ',
-      value: 'first_name'
-    },
-    {
-      text: 'เบอร์โทร',
-      value: 'tel'
-    },
-    {
-      text: 'เบอร์โทร',
-      value: 'address_from_gmap'
-    },
-    {
-      text: 'เบอร์โทร',
-      value: 'address_from_user'
-    },
-
+  const headers = [{
+    text: 'Id',
+    value: 'id'
+  },
+  {
+    text: 'ชื่อจริง-นามสกุล',
+    value: 'name'
+  },
+  {
+    text: 'เบอร์โทร',
+    value: 'tel'
+  },
+  {
+    text: 'ที่อยู่จากMap',
+    value: 'address_from_gmap'
+  },
+  {
+    text: 'สถานะ',
+    value: 'actions',
+    sortable: false
+  },
+  {
+    text: 'ดูข้อมูล',
+    value: 'actions1',
+    sortable: false
+  },
   ];
   if (results == '') {
     return res.json({
@@ -895,6 +913,10 @@ app.post('/api/user/getAllv2', async (req, res) => {
   {
     text: 'ชื่อ',
     value: 'first_name'
+  },
+  {
+    text: 'นามสกุล',
+    value: 'last_name'
   },
   {
     text: 'เบอร์โทร',
