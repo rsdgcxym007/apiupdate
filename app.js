@@ -44,47 +44,47 @@ app.get('/image/:name', async (req, res) => {
   fs.createReadStream(`uploads/${name}`).pipe(res);
 })
 
-app.get('/', async (req, res) => {
-  const result = await db.types.findAll();
+// app.get('/', async (req, res) => {
+//   const result = await db.types.findAll();
 
-  result.forEach(x => {
-    x.created_at = moment(x.created_at).format("YYYY-MM-DD HH:mm:ss")
-    x.updated_at = moment(x.created_at).format("YYYY-MM-DD HH:mm:ss")
-  })
+//   result.forEach(x => {
+//     x.created_at = moment(x.created_at).format("YYYY-MM-DD HH:mm:ss")
+//     x.updated_at = moment(x.created_at).format("YYYY-MM-DD HH:mm:ss")
+//   })
 
-  return res.json(result)
-})
+//   return res.json(result)
+// })
 
 app.get('/api/auth/user', jwt.verifytoken, async (req, res) => {
   const payload = req.jwtpayload
   return res.json(payload);
 })
 
-app.get('/api/master/type', async (req, res) => {
-  const result = await db.types.findAll({
-    order: [
-      ["name", "asc"]
-    ]
-    // orderBy: [{
-    //   name: 'asc',
-    // }, ]
-  });
+// app.get('/api/master/type', async (req, res) => {
+//   const result = await db.types.findAll({
+//     order: [
+//       ["name", "asc"]
+//     ]
+//     // orderBy: [{
+//     //   name: 'asc',
+//     // }, ]
+//   });
 
-  if (!result) {
-    return res.json({
-      result: null,
-      message: "error"
-    })
-  }
+//   if (!result) {
+//     return res.json({
+//       result: null,
+//       message: "error"
+//     })
+//   }
 
-  const items = result.map(function (item) {
-    return item['name'];
-  });
-  return res.json({
-    result: items,
-    message: "success"
-  })
-})
+//   const items = result.map(function (item) {
+//     return item['name'];
+//   });
+//   return res.json({
+//     result: items,
+//     message: "success"
+//   })
+// })
 
 app.get('/api/master/group', async (req, res) => {
   const result = await db.groups.findAll({
@@ -760,31 +760,27 @@ app.post('/api/user/getAll', async (req, res) => {
     from users a join address b on a.current_address = b.id where a.group_id = '51b0e763-1f09-416a-afa9-d2f0ce78e9e6' `)
   console.log('result is: ', results)
   const headers = [{
-    text: 'Id',
-    value: 'id'
-  },
-  {
-    text: 'ชื่อจริง-นามกสุล',
-    value: 'name'
-  },
-  {
-    text: 'เบอร์โทร',
-    value: 'tel'
-  },
-  {
-    text: 'ที่อยู่จากMap',
-    value: 'address_from_gmap'
-  },
-  {
-    text: 'สถานะ',
-    value: 'actions',
-    sortable: false
-  },
-  {
-    text: 'ดูข้อมูล',
-    value: 'actions1',
-    sortable: false
-  },
+      text: 'ชื่อจริง-นามกสุล',
+      value: 'name'
+    },
+    {
+      text: 'เบอร์โทร',
+      value: 'tel'
+    },
+    {
+      text: 'ที่อยู่จากMap',
+      value: 'address_from_gmap'
+    },
+    {
+      text: 'สถานะ',
+      value: 'actions',
+      sortable: false
+    },
+    {
+      text: 'ดูข้อมูล',
+      value: 'actions1',
+      sortable: false
+    },
   ];
   if (results == '') {
     return res.json({
@@ -832,31 +828,27 @@ app.post('/api/user/getAllVA', async (req, res) => {
     from users a join address b on a.current_address = b.id where a.group_id = '87191711-d7ff-4664-b648-8e9bceaab5ea' `)
   console.log('result is: ', results)
   const headers = [{
-    text: 'Id',
-    value: 'id'
-  },
-  {
-    text: 'ชื่อจริง-นามสกุล',
-    value: 'name'
-  },
-  {
-    text: 'เบอร์โทร',
-    value: 'tel'
-  },
-  {
-    text: 'ที่อยู่จากMap',
-    value: 'address_from_gmap'
-  },
-  {
-    text: 'สถานะ',
-    value: 'actions',
-    sortable: false
-  },
-  {
-    text: 'ดูข้อมูล',
-    value: 'actions1',
-    sortable: false
-  },
+      text: 'ชื่อจริง-นามสกุล',
+      value: 'name'
+    },
+    {
+      text: 'เบอร์โทร',
+      value: 'tel'
+    },
+    {
+      text: 'ที่อยู่จากMap',
+      value: 'address_from_gmap'
+    },
+    {
+      text: 'สถานะ',
+      value: 'actions',
+      sortable: false
+    },
+    {
+      text: 'ดูข้อมูล',
+      value: 'actions1',
+      sortable: false
+    },
   ];
   if (results == '') {
     return res.json({
