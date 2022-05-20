@@ -3,7 +3,7 @@ module.exports = {
     "username": "postgres",
     "password": "Password123",
     "database": "covid_db_2",
-    "host": "localhost",
+    "host": "203.159.92.216",
     "dialect": "postgres"
   },
   "test": {
