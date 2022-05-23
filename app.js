@@ -248,11 +248,6 @@ app.post('/api/auth/register', async (req, res) => {
       count++
       error = true
     }
-    if (user.tel === tel) {
-      message += !count ? 'เบอร์โทรนี้ถูกใช้ไปแล้ว' : ", " + 'เบอร์โทรนี้ถูกใช้ไปแล้ว'
-      count++
-      error = true
-    }
   }
 
   if (error) {
