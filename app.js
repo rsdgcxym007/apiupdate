@@ -483,7 +483,7 @@ app.post('/api/tasks/getAskForHelp', async (req, res) => {
         text: 'สถานะ',
         value: 'status_name'
       }, {
-        text: 'dsadsadsadas',
+        text: 'ระดับอาการ',
         value: 'level'
       },
       {
