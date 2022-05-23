@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-module.exports = function (sequelize, DataTypes) {
+module.exports = function(sequelize, DataTypes) {
   return sequelize.define('tasks', {
     id: {
       type: DataTypes.UUID,
@@ -9,10 +9,6 @@ module.exports = function (sequelize, DataTypes) {
     },
     remark: {
       type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    address_id: {
-      type: DataTypes.INTEGER(4),
       allowNull: true
     },
     user_id: {
@@ -27,10 +23,10 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.UUID,
       allowNull: true
     },
-    // user_id_va: {
-    //   type: DataTypes.UUID,
-    //   allowNull: true
-    // },
+    user_id_va: {
+      type: DataTypes.UUID,
+      allowNull: true
+    },
     level: {
       type: DataTypes.STRING(255),
       allowNull: true
@@ -41,6 +37,10 @@ module.exports = function (sequelize, DataTypes) {
     },
     volunteer_id: {
       type: DataTypes.UUID,
+      allowNull: true
+    },
+    address_from_user: {
+      type: DataTypes.STRING(255),
       allowNull: true
     },
     congenital_disease: {
@@ -55,8 +55,8 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-    volunteer_id: {
-      type: DataTypes.UUID,
+    address_id: {
+      type: DataTypes.INTEGER,
       allowNull: true
     },
     form: {
@@ -69,9 +69,8 @@ module.exports = function (sequelize, DataTypes) {
     },
     is_care_until_end: {
       type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
+      allowNull: true
+    }
   }, {
     sequelize,
     tableName: 'tasks',

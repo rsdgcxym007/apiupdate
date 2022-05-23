@@ -248,6 +248,11 @@ app.post('/api/auth/register', async (req, res) => {
       count++
       error = true
     }
+    if (user.tel === tel) {
+      message += !count ? 'เบอร์โทรนี้ถูกใช้ไปแล้ว' : ", " + 'เบอร์โทรนี้ถูกใช้ไปแล้ว'
+      count++
+      error = true
+    }
   }
 
   if (error) {
@@ -471,14 +476,14 @@ app.post('/api/tasks/getAskForHelp', async (req, res) => {
     })
   } else {
     const headers = [{
-        text: 'วันที่สร้าง',
+        text: 'วันที่ขอความช่วยเหลือ',
         value: 'created_at'
       },
       {
         text: 'สถานะ',
         value: 'status_name'
       }, {
-        text: 'ระดับอาการ',
+        text: 'dsadsadsadas',
         value: 'level'
       },
       {
@@ -520,6 +525,10 @@ app.post('/api/volunteen/takecareuser', async (req, res) => {
   const [results, metadata] = await db.sequelize.query(`
   select * from vw_tasks_volunteer a where a."volunteer_id" = '${userId}' and (${queryStatus})`);
   const headers = [{
+      text: 'วันที่',
+      value: 'created_at'
+    },
+    {
       text: 'สถานะ',
       value: 'status_name'
     },
